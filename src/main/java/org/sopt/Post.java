@@ -20,6 +20,10 @@ public class Post {
     }
 
     // 게시글 수정 -> 제목, 본문 데이터 교체
-    public void setTitle(String title){}
-    public void setContent(String content){}
+    public void setTitle(String title){
+        this.title = title;
+    }
+    public void setContent(String content){
+        this.content = content;
+    }
 }

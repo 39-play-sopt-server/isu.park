@@ -3,6 +3,7 @@ package org.sopt;
 // 단일 책임 원칙
 // 책임 부여
 public class Post {
+    Integer id; // post 구분자
     String title;
     String content;
 

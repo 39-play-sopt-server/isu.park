@@ -1,10 +1,14 @@
 package org.sopt.Model;
 
 
+import java.util.Date;
+
 public class Post {
     Integer id; // post 구분자
-    String title;
-    String content;
+    String title;  // 제목
+    String content;  // 본문
+    String author;  // 글쓴이
+    Date date; // 날짜
 
     public Post(String title, String content) {
         this.title = title;

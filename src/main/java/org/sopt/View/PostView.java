@@ -31,6 +31,10 @@ public class PostView {
         System.out.print("내용: ");
         return scanner.nextLine();
     }
+    public String readAuthor(){
+        System.out.print("저자: ");
+        return scanner.nextLine();
+    }
     public int readPostNumber(String message){
         System.out.print(message);
         return Integer.parseInt(scanner.nextLine());
@@ -39,6 +43,8 @@ public class PostView {
         System.out.println("\n=== 게시글 ===");
         System.out.println("제목: " + post.getTitle());
         System.out.println("내용: " + post.getContent());
+        System.out.println("저자: "+ post.getAuthor());
+        System.out.println("저자: "+ post.getDate());
     }
     public void printMessage(String message){
         System.out.println(message);

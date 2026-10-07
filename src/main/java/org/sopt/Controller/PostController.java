@@ -40,8 +40,9 @@ public class PostController {
     public void createPost(){
         String title = view.readTitle();
         String content = view.readContent();
+        String author = view.readAuthor();
         try {
-            postService.createPost(title,content);
+            postService.createPost(title,content,author);
             view.printMessage("게시글이 작성되었습니다.");
         } catch(IllegalArgumentException e){
             view.printMessage(e.getMessage());
@@ -71,10 +72,11 @@ public class PostController {
     // 4. 게시글 수정
     public void updatePost(){
         try {
-            int index = view.readPostNumber("수정할 게시글 번호: ");  // 게시물 검증을 먼저해야하는데
+            int index = view.readPostNumber("수정할 게시글 번호: ");
             String newTitle = view.readTitle();
             String newContent = view.readContent();
-            postService.updatePost(index,newTitle,newContent);
+            String newAuthor = view.readAuthor();
+            postService.updatePost(index,newTitle,newContent,newAuthor);
             view.printMessage("게시글이 수정되었습니다.");
         } catch(Exception e){
             view.printMessage(e.getMessage());

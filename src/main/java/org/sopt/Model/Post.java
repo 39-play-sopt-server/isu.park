@@ -1,7 +1,6 @@
-package org.sopt;
+package org.sopt.Model;
 
-// 단일 책임 원칙
-// 책임 부여
+
 public class Post {
     Integer id; // post 구분자
     String title;
@@ -10,6 +9,12 @@ public class Post {
     public Post(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     // 게시글 조회 -> 제목, 본문 데이터 전달

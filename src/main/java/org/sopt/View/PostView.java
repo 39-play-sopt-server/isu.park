@@ -1,8 +1,9 @@
 package org.sopt.View;
 
-import org.sopt.Post;
-
+import org.sopt.Model.Post;
 import java.util.Scanner;
+
+// 사용자 인터페이스 및 입출력 담당
 
 public class PostView {
     private final Scanner scanner = new Scanner(System.in);
@@ -15,7 +16,6 @@ public class PostView {
         System.out.println("4. 게시글 수정");
         System.out.println("5. 게시글 삭제");
         System.out.println("6. 종료");
-
     }
 
     public int readCommand(){

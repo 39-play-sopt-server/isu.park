@@ -43,7 +43,7 @@ public class PostController {
         try {
             postService.createPost(title,content,author);
             view.printMessage("게시글이 작성되었습니다.");
-        } catch(IllegalArgumentException e){
+        } catch(Exception e){
             view.printMessage(e.getMessage());
         }
     }
@@ -51,8 +51,8 @@ public class PostController {
     public void getPosts(){
         try {
             List<Post> posts = postService.getPosts();
-            for(int i = 0; i < posts.size(); i++){
-                view.printMessage((i+1)+". "+posts.get(i).getTitle());
+            for(Post post : posts){
+                view.printMessage(post.getId()+". "+post.getTitle());
             }
         } catch(Exception e){
             view.printMessage(e.getMessage());

@@ -22,8 +22,12 @@ public class PostView {
         System.out.println("6. 종료");
     }
     public int readCommand(){   // 메뉴 선택
-        System.out.print("선택: ");
-        return Integer.parseInt(scanner.nextLine());
+        try{
+            System.out.print("선택: ");
+            return Integer.parseInt(scanner.nextLine());
+        }catch (NumberFormatException e){  // 메뉴 번호 대신, 문자 입력할 경우
+            return -1;
+        }
     }
     public String readTitle(){   // 제목 작성
         System.out.print("제목: ");
@@ -42,8 +46,12 @@ public class PostView {
         return scanner.nextLine();
     }
     public int readPostNumber(String message){   // 게시물 번호 작성
-        System.out.print(message);
-        return Integer.parseInt(scanner.nextLine());
+        try{
+            System.out.print(message);
+            return Integer.parseInt(scanner.nextLine());
+        }catch (NumberFormatException e){  // 게시물 번호 대신, 문자 입력할 경우
+            return -1;
+        }
     }
 
     // [출력] 관련 메서드

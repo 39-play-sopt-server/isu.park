@@ -19,7 +19,7 @@ public class Main {
         // 서버 객체 생성
         PostRepository postRepository =  new HashMapPostRepository();
         PostService postService = new PostService(postRepository);
-        PostController postController = new PostController(postView, postService);
+        PostController postController = new PostController(postService);
 
         while(true){
             postView.printMenu();

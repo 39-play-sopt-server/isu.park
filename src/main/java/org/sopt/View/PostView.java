@@ -1,6 +1,9 @@
 package org.sopt.View;
 
+import org.sopt.Dto.ApiResponse;
 import org.sopt.Model.Post;
+
+import java.util.List;
 import java.util.Scanner;
 
 // 사용자 인터페이스 및 입출력 담당
@@ -8,6 +11,7 @@ import java.util.Scanner;
 public class PostView {
     private final Scanner scanner = new Scanner(System.in);
 
+    // [입력] 관련 메서드
     public void printMenu(){
         System.out.println("\n=== 게시판 ===");
         System.out.println("1. 게시글 작성");
@@ -17,7 +21,6 @@ public class PostView {
         System.out.println("5. 게시글 삭제");
         System.out.println("6. 종료");
     }
-
     public int readCommand(){   // 메뉴 선택
         System.out.print("선택: ");
         return Integer.parseInt(scanner.nextLine());
@@ -42,15 +45,35 @@ public class PostView {
         System.out.print(message);
         return Integer.parseInt(scanner.nextLine());
     }
-    public void printPost(Post post){
+
+    // [출력] 관련 메서드
+    public void printMessage(String message){
+        System.out.println(message);
+    }
+    public void renderResponse(ApiResponse<?> response){
+        System.out.println(response.getMessage());
+    }
+    public void renderPostListResponse(ApiResponse<List<Post>> response){
+        if(!response.isSuccess()) {
+            System.out.println(response.getMessage());
+            return;
+        }
+        List<Post> posts = response.getData();
+        for(Post post : posts){
+            printMessage(post.getId()+". "+post.getTitle());
+        }
+    }
+    public void renderPostResponse(ApiResponse<Post> response){
+        if(!response.isSuccess()) {
+            System.out.println(response.getMessage());
+            return;
+        }
+        Post post = response.getData();
         System.out.println("\n=== 게시글 ===");
         System.out.println("제목: " + post.getTitle());
         System.out.println("내용: " + post.getContent());
         System.out.println("카데고리: " + post.getCategory());
         System.out.println("저자: "+ post.getAuthor());
         System.out.println("작성일: "+ post.getDate());
-    }
-    public void printMessage(String message){
-        System.out.println(message);
     }
 }

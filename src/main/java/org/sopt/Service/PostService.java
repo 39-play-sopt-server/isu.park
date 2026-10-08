@@ -13,7 +13,7 @@ public class PostService {
     }
 
     // 1. 게시글 생성
-    public void createPost(String title, String content, String author) {
+    public void createPost(String title, String content, String author, String category) {
         // null 및 공백 문자열 검증
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("게시글 제목은 필수 입력 항목입니다.");
@@ -22,7 +22,7 @@ public class PostService {
             throw new IllegalArgumentException("게시글 본문은 필수 입력 항목입니다.");
         }
         // 검증 통과 후, 게시글 생성
-        Post post = new Post(title, content, author, LocalDate.now());
+        Post post = new Post(title, content, author, LocalDate.now(), category);
         postRepository.save(post);
     }
     // 2. 게시글 목록 조회
@@ -43,7 +43,7 @@ public class PostService {
         return post;
     }
     // 4. 게시글 수정
-    public void updatePost(int id, String title, String content, String author){
+    public void updatePost(int id, String title, String content, String author, String category) {
         if(postRepository.findAll().isEmpty()) {
             throw new IllegalArgumentException("게시글이 없습니다.");
         }
@@ -52,6 +52,7 @@ public class PostService {
         post.setTitle(title);
         post.setContent(content);
         post.setAuthor(author);
+        post.setCategory(category);
         postRepository.save(post);
     }
     // 5. 게시글 삭제

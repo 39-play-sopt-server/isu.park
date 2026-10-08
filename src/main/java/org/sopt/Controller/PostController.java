@@ -40,8 +40,9 @@ public class PostController {
         String title = view.readTitle();
         String content = view.readContent();
         String author = view.readAuthor();
+        String category = view.readCategory();
         try {
-            postService.createPost(title,content,author);
+            postService.createPost(title,content,author,category);
             view.printMessage("게시글이 작성되었습니다.");
         } catch(Exception e){
             view.printMessage(e.getMessage());
@@ -75,7 +76,8 @@ public class PostController {
             String newTitle = view.readTitle();
             String newContent = view.readContent();
             String newAuthor = view.readAuthor();
-            postService.updatePost(index,newTitle,newContent,newAuthor);
+            String newCategory = view.readCategory();
+            postService.updatePost(index,newTitle,newContent,newAuthor, newCategory);
             view.printMessage("게시글이 수정되었습니다.");
         } catch(Exception e){
             view.printMessage(e.getMessage());

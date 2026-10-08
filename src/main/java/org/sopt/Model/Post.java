@@ -10,12 +10,14 @@ public class Post {
     String content;  // 본문
     String author;  // 글쓴이
     LocalDate date; // 날짜
+    String category; // 카테고리
 
-    public Post(String title, String content, String author, LocalDate date) {
+    public Post(String title, String content, String author, LocalDate date, String category) {
         this.title = title;
         this.content = content;
         this.author = author;
         this.date = date;
+        this.category = category;
     }
     public Integer getId() {
         return id;
@@ -37,6 +39,9 @@ public class Post {
     public LocalDate getDate(){
         return this.date;
     }
+    public String getCategory(){
+        return this.category;
+    }
 
     // 게시글 수정 -> 제목, 본문 데이터 교체 + 저자
     public void setTitle(String title){
@@ -47,5 +52,8 @@ public class Post {
     }
     public void setAuthor(String author){
         this.author = author;
+    }
+    public void setCategory(String category){
+        this.category = category;
     }
 }

@@ -24,7 +24,7 @@ public class Post {
         this.id = id;
     }
 
-    // 게시글 조회 -> 제목, 본문 데이터 전달
+    // 게시글 조회 -> 제목, 본문 데이터 전달 + 저자, 날짜
     public String getTitle(){
         return this.title;
     }
@@ -38,8 +38,7 @@ public class Post {
         return this.date;
     }
 
-
-    // 게시글 수정 -> 제목, 본문 데이터 교체
+    // 게시글 수정 -> 제목, 본문 데이터 교체 + 저자
     public void setTitle(String title){
         this.title = title;
     }

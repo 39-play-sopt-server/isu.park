@@ -7,7 +7,6 @@ import org.sopt.Service.PostService;
 import org.sopt.View.PostView;
 
 // 프로젝트의 시작점 -> 전체 애플리케이션 실행
-
 public class Main {
     public static void main(String[] args) {
         PostView view = new PostView();

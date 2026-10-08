@@ -7,7 +7,6 @@ import java.util.List;
 
 // 요청 제어 및 흐름 중개
 // View로부터 전달받은 명령/입력값을 알맞은 Service 메소드를 호출
-
 public class PostController {
     private final PostView view;
     private PostService postService;

@@ -12,7 +12,7 @@ import java.util.Optional;
 // 3. 데이터 접근 방식 변경의 유연성 제공
 public interface PostRepository {
     void save(Post post); // 저장
-    List<Post> findAll();  // 전체 조회
+    List<Post> findAll();  // 목록 조회
     Optional<Post> findById(int id);  // 단건 조회
     void deleteById(int id);  // 삭제
 }

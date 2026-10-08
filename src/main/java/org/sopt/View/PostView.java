@@ -18,24 +18,23 @@ public class PostView {
         System.out.println("6. 종료");
     }
 
-    public int readCommand(){
+    public int readCommand(){   // 메뉴 선택
         System.out.print("선택: ");
         return Integer.parseInt(scanner.nextLine());
     }
-
-    public String readTitle(){
+    public String readTitle(){   // 제목 작성
         System.out.print("제목: ");
         return scanner.nextLine();
     }
-    public String readContent(){
+    public String readContent(){  // 내용 작성
         System.out.print("내용: ");
         return scanner.nextLine();
     }
-    public String readAuthor(){
+    public String readAuthor(){  // 저자 작성
         System.out.print("저자: ");
         return scanner.nextLine();
     }
-    public int readPostNumber(String message){
+    public int readPostNumber(String message){   // 게시물 번호 작성
         System.out.print(message);
         return Integer.parseInt(scanner.nextLine());
     }

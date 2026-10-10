@@ -1,11 +1,14 @@
 package org.sopt.Repository;
 
 import org.sopt.Model.Post;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class HashMapPostRepository implements PostRepository {
     private final HashMap<Integer, Post> posts = new HashMap<>();
     private static int sequence = 0; // 게시글 id 자동 증가용 번호

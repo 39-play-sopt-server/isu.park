@@ -2,10 +2,12 @@ package org.sopt.Service;
 
 import org.sopt.Model.Post;
 import org.sopt.Repository.PostRepository;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
-// 비즈니스 로직 담당
+@Service
 public class PostService {
     private PostRepository postRepository;
     public PostService(PostRepository postRepository) {   // 의존성 주입

@@ -1,5 +1,6 @@
 package org.sopt.Dto;
 
+// 공통 응답 DTO
 public class ApiResponse<T> {
     private final boolean success;  // 성공 여부
     private final String message;  // 안내 메시지

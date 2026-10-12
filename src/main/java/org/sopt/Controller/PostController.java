@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// @RestController vs @Controller의 차이?
 @RestController
 @RequestMapping(path = "/api/v1/posts")
 public class PostController {

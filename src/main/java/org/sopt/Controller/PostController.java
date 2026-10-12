@@ -42,7 +42,7 @@ public class PostController {
     // 3. 게시글 단건 조회
     @GetMapping(path="/{postId}")
     public ApiResponse<Post> getPost(
-            @PathVariable(name="postId") Integer postId
+            @PathVariable(name="postId") Long postId
     ){
         try {
             Post post = postService.getPost(postId);
@@ -54,7 +54,7 @@ public class PostController {
     // 4. 게시글 수정
     @PatchMapping(path="/{postId}")
     public ApiResponse<Void> updatePost(
-            @PathVariable(name="postId") Integer postId,
+            @PathVariable(name="postId") Long postId,
             @RequestBody(required = true) PostUpdateRequest request
     ){
         try {
@@ -67,7 +67,7 @@ public class PostController {
     // 5. 게시글 삭제
     @DeleteMapping(path="/{postId}")
     public ApiResponse<?> deletePost(
-            @PathVariable(name="postId") Integer postId
+            @PathVariable(name="postId") Long postId
     ) {
         try{
             postService.deletePost(postId);

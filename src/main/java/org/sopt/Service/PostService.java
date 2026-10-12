@@ -39,13 +39,13 @@ public class PostService {
         return posts;
     }
     // 3. 게시글 단건 조회
-    public Post getPost(int id){
+    public Post getPost(Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
         return post;
     }
     // 4. 게시글 수정
-    public void updatePost(int id, PostUpdateRequest request) {
+    public void updatePost(Long id, PostUpdateRequest request) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
         post.update(
@@ -58,7 +58,7 @@ public class PostService {
         postRepository.save(post);
     }
     // 5. 게시글 삭제
-    public void deletePost(int id){
+    public void deletePost(Long id){
         postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
         postRepository.deleteById(id);

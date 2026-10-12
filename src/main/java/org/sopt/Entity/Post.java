@@ -4,7 +4,7 @@ package org.sopt.Entity;
 import java.time.LocalDate;
 
 public class Post {
-    Integer id; // post 구분자
+    Long id; // post 구분자
     String title;  // 제목
     String content;  // 본문
     String author;  // 글쓴이
@@ -29,10 +29,10 @@ public class Post {
         this.category = category;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

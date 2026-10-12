@@ -22,34 +22,22 @@ public class PostController {
     public ApiResponse<Void> createPost(
             @RequestBody(required = true) PostCreateRequest request
     ){
-        try {
-            postService.createPost(request);
-            return ApiResponse.success("게시글이 작성되었습니다.");
-        } catch(Exception e){
-            return ApiResponse.error(e.getMessage());
-        }
+        postService.createPost(request);
+        return ApiResponse.success("게시글이 작성되었습니다.");
     }
     // 2. 게시글 목록 조회
     @GetMapping
     public ApiResponse<List<Post>> getPosts(){
-        try {
-            List<Post> posts = postService.getPosts();
-            return ApiResponse.success(posts);
-        } catch(Exception e){
-            return ApiResponse.error(e.getMessage());
-        }
+        List<Post> posts = postService.getPosts();
+        return ApiResponse.success(posts);
     }
     // 3. 게시글 단건 조회 -> 상세 조회
     @GetMapping(path="/{postId}")
     public ApiResponse<PostResponse> getPost(
             @PathVariable(name="postId") Long postId
     ){
-        try {
-            PostResponse post = postService.getPost(postId);
-            return ApiResponse.success(post);
-        } catch(Exception e){
-            return ApiResponse.error(e.getMessage());
-        }
+        PostResponse post = postService.getPost(postId);
+        return ApiResponse.success(post);
     }
     // 4. 게시글 수정
     @PatchMapping(path="/{postId}")
@@ -57,23 +45,15 @@ public class PostController {
             @PathVariable(name="postId") Long postId,
             @RequestBody(required = true) PostUpdateRequest request
     ){
-        try {
-            postService.updatePost(postId, request);
-            return ApiResponse.success("게시글이 수정되었습니다.");
-        } catch(Exception e){
-            return ApiResponse.error(e.getMessage());
-        }
+        postService.updatePost(postId, request);
+        return ApiResponse.success("게시글이 수정되었습니다.");
     }
     // 5. 게시글 삭제
     @DeleteMapping(path="/{postId}")
     public ApiResponse<?> deletePost(
             @PathVariable(name="postId") Long postId
     ) {
-        try{
-            postService.deletePost(postId);
-            return ApiResponse.success("게시글이 삭제되었습니다.");
-        } catch(Exception e){
-            return ApiResponse.error(e.getMessage());
-        }
+        postService.deletePost(postId);
+        return ApiResponse.success("게시글이 삭제되었습니다.");
     }
 }

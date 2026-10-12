@@ -2,6 +2,7 @@ package org.sopt.Controller;
 
 import org.sopt.Dto.ApiResponse;
 import org.sopt.Dto.PostCreateRequest;
+import org.sopt.Dto.PostUpdateRequest;
 import org.sopt.Entity.Post;
 import org.sopt.Service.PostService;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class PostController {
             @RequestBody(required = true) PostCreateRequest request
     ){
         try {
-            postService.createPost(request.title(), request.author(), request.category(), request.content());
+            postService.createPost(request);
             return ApiResponse.success("게시글이 작성되었습니다.");
         } catch(Exception e){
             return ApiResponse.error(e.getMessage());
@@ -54,10 +55,10 @@ public class PostController {
     @PatchMapping(path="/{postId}")
     public ApiResponse<Void> updatePost(
             @PathVariable(name="postId") Integer postId,
-            @RequestBody(required = true) PostCreateRequest request
+            @RequestBody(required = true) PostUpdateRequest request
     ){
         try {
-            postService.updatePost(postId,request.title(), request.author(), request.category(), request.content());
+            postService.updatePost(postId, request);
             return ApiResponse.success("게시글이 수정되었습니다.");
         } catch(Exception e){
             return ApiResponse.error(e.getMessage());

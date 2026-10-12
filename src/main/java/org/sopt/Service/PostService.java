@@ -1,5 +1,7 @@
 package org.sopt.Service;
 
+import org.sopt.Dto.PostCreateRequest;
+import org.sopt.Dto.PostUpdateRequest;
 import org.sopt.Entity.Category;
 import org.sopt.Entity.Post;
 import org.sopt.Repository.PostRepository;
@@ -16,16 +18,23 @@ public class PostService {
     }
 
     // 1. 게시글 생성
-    public void createPost(String title, String content, String author, Category category) {
+    public void createPost(PostCreateRequest request) {
         // null 및 공백 문자열 검증
-        if (title == null || title.isBlank()) {
+        if (request.title() == null || request.title().isBlank()) {
             throw new IllegalArgumentException("게시글 제목은 필수 입력 항목입니다.");
         }
-        if (content == null || content.isBlank()) {
+        if (request.content() == null || request.content().isBlank()) {
             throw new IllegalArgumentException("게시글 본문은 필수 입력 항목입니다.");
         }
         // 검증 통과 후, 게시글 생성
-        Post post = new Post(title, content, author, LocalDate.now(), LocalDate.now(), category);
+        Post post = new Post(
+                request.title(),
+                request.content(),
+                request.author(),
+                LocalDate.now(), // 최초 생성시 생성일 = 수정일
+                LocalDate.now(),
+                request.category()
+        );
         postRepository.save(post);
     }
     // 2. 게시글 목록 조회
@@ -46,16 +55,16 @@ public class PostService {
         return post;
     }
     // 4. 게시글 수정
-    public void updatePost(int id, String title, String content, String author, String category) {
+    public void updatePost(int id, PostUpdateRequest request) {
         if(postRepository.findAll().isEmpty()) {
             throw new IllegalArgumentException("게시글이 없습니다.");
         }
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
-        post.setTitle(title);
-        post.setContent(content);
-        post.setAuthor(author);
-        post.setCategory(category);
+        post.setTitle(request.title());
+        post.setContent(request.content());
+        post.setAuthor(request.author());
+        post.setCategory(request.category());
         post.setUpdatedAt(LocalDate.now());
         postRepository.save(post);
     }

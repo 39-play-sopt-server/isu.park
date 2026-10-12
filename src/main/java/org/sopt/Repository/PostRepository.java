@@ -1,6 +1,6 @@
 package org.sopt.Repository;
 
-import org.sopt.Model.Post;
+import org.sopt.Entity.Post;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

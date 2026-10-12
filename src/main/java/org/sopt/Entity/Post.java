@@ -1,8 +1,7 @@
-package org.sopt.Model;
+package org.sopt.Entity;
 
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Post {
     Integer id; // post 구분자

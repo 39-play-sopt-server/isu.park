@@ -1,11 +1,9 @@
 package org.sopt.Controller;
 
 import org.sopt.Dto.ApiResponse;
-import org.sopt.Dto.PostRequest;
-import org.sopt.Model.Post;
+import org.sopt.Dto.PostCreateRequest;
+import org.sopt.Entity.Post;
 import org.sopt.Service.PostService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class PostController {
     // 1. 게시글 작성
     @PostMapping
     public ApiResponse<Void> createPost(
-            @RequestBody(required = true) PostRequest request
+            @RequestBody(required = true) PostCreateRequest request
     ){
         try {
             postService.createPost(request.title(), request.author(), request.category(), request.content());
@@ -56,7 +54,7 @@ public class PostController {
     @PatchMapping(path="/{postId}")
     public ApiResponse<Void> updatePost(
             @PathVariable(name="postId") Integer postId,
-            @RequestBody(required = true) PostRequest request
+            @RequestBody(required = true) PostCreateRequest request
     ){
         try {
             postService.updatePost(postId,request.title(), request.author(), request.category(), request.content());

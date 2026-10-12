@@ -1,6 +1,6 @@
 package org.sopt.Service;
 
-import org.sopt.Model.Post;
+import org.sopt.Entity.Post;
 import org.sopt.Repository.PostRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,6 @@
 package org.sopt.Dto;
 
-import java.time.LocalDate;
-
-public record PostRequest(
+public record PostCreateRequest(
         String title,
         String content,
         String author,

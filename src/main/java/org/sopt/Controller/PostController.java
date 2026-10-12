@@ -4,6 +4,8 @@ import org.sopt.Dto.ApiResponse;
 import org.sopt.Dto.PostRequest;
 import org.sopt.Model.Post;
 import org.sopt.Service.PostService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/v1/posts")
 public class PostController {
-    private PostService postService;
+    private final PostService postService;
     public PostController(PostService postService) {  // 의존성 주입
         this.postService = postService;
     }
@@ -20,7 +22,6 @@ public class PostController {
     @PostMapping
     public ApiResponse<Void> createPost(
             @RequestBody(required = true) PostRequest request
-            //String title, String content, String author, String category
     ){
         try {
             postService.createPost(request.title(), request.author(), request.category(), request.content());
@@ -42,7 +43,7 @@ public class PostController {
     // 3. 게시글 단건 조회
     @GetMapping(path="/{postId}")
     public ApiResponse<Post> getPost(
-            @PathVariable Integer postId
+            @PathVariable(name="postId") Integer postId
     ){
         try {
             Post post = postService.getPost(postId);
@@ -54,7 +55,7 @@ public class PostController {
     // 4. 게시글 수정
     @PatchMapping(path="/{postId}")
     public ApiResponse<Void> updatePost(
-            @PathVariable Integer postId,
+            @PathVariable(name="postId") Integer postId,
             @RequestBody(required = true) PostRequest request
     ){
         try {
@@ -66,8 +67,8 @@ public class PostController {
     }
     // 5. 게시글 삭제
     @DeleteMapping(path="/{postId}")
-    public ApiResponse<Void> deletePost(
-            @PathVariable Integer postId
+    public ApiResponse<?> deletePost(
+            @PathVariable(name="postId") Integer postId
     ) {
         try{
             postService.deletePost(postId);

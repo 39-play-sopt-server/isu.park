@@ -19,13 +19,6 @@ public class PostService {
 
     // 1. 게시글 생성
     public void createPost(PostCreateRequest request) {
-        // null 및 공백 문자열 검증
-        if (request.title() == null || request.title().isBlank()) {
-            throw new IllegalArgumentException("게시글 제목은 필수 입력 항목입니다.");
-        }
-        if (request.content() == null || request.content().isBlank()) {
-            throw new IllegalArgumentException("게시글 본문은 필수 입력 항목입니다.");
-        }
         // 검증 통과 후, 게시글 생성
         Post post = new Post(
                 request.title(),
@@ -61,11 +54,13 @@ public class PostService {
         }
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
-        post.setTitle(request.title());
-        post.setContent(request.content());
-        post.setAuthor(request.author());
-        post.setCategory(request.category());
-        post.setUpdatedAt(LocalDate.now());
+        post.update(
+                request.title(),
+                request.content(),
+                request.author(),
+                request.category(),
+                LocalDate.now()
+        );
         postRepository.save(post);
     }
     // 5. 게시글 삭제

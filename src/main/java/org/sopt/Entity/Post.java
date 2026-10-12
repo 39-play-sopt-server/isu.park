@@ -12,7 +12,15 @@ public class Post {
     LocalDate updatedAt; // 수정일
     Category category; // 카테고리
 
-    public Post(String title, String content, String author, LocalDate createdAt, LocalDate updatedAt, Category category) {
+    public Post(
+            String title,
+            String content,
+            String author,
+            LocalDate createdAt,
+            LocalDate updatedAt,
+            Category category
+    ) {
+        validate(title, content, category);  // 초기 검증
         this.title = title;
         this.content = content;
         this.author = author;
@@ -20,6 +28,7 @@ public class Post {
         this.updatedAt = updatedAt;
         this.category = category;
     }
+
     public Integer getId() {
         return id;
     }
@@ -47,18 +56,32 @@ public class Post {
         return this.category;
     }
 
-    // 게시글 수정
-    public void setTitle(String title){
+    // 게시글 수정 메소드
+    public void update(
+            String title,
+            String content,
+            String author,
+            Category category,
+            LocalDate updatedAt
+    ){
+        validate(title, content, category);  // 초기 검증
         this.title = title;
-    }
-    public void setContent(String content){
         this.content = content;
-    }
-    public void setAuthor(String author){
         this.author = author;
-    }
-    public void setCategory(Category category){
         this.category = category;
+        this.updatedAt = updatedAt;
     }
-    public void setUpdatedAt(LocalDate updatedAt){this.updatedAt = updatedAt;}
+
+    // 게시글 검증 메소드
+    public void validate(String title,String content,Category category){
+        if (title == null || title.isEmpty()){
+            throw new IllegalArgumentException("게시글 제목은 필수 입력 항목입니다.");
+        }
+        if (content == null || content.isEmpty()){
+            throw new IllegalArgumentException("게시글 본문은 필수 입력 항목입니다.");
+        }
+        if (category == null){
+            throw new IllegalArgumentException("게시글 카테고리는 필수 입력 항목입니다.");
+        }
+    }
 }

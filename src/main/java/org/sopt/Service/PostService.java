@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class PostService {
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
     public PostService(PostRepository postRepository) {   // 의존성 주입
         this.postRepository = postRepository;
     }
@@ -24,7 +24,7 @@ public class PostService {
             throw new IllegalArgumentException("게시글 본문은 필수 입력 항목입니다.");
         }
         // 검증 통과 후, 게시글 생성
-        Post post = new Post(title, content, author, LocalDate.now(), category);
+        Post post = new Post(title, content, author, LocalDate.now(), LocalDate.now(), category);
         postRepository.save(post);
     }
     // 2. 게시글 목록 조회
@@ -55,6 +55,7 @@ public class PostService {
         post.setContent(content);
         post.setAuthor(author);
         post.setCategory(category);
+        post.setUpdatedAt(LocalDate.now());
         postRepository.save(post);
     }
     // 5. 게시글 삭제

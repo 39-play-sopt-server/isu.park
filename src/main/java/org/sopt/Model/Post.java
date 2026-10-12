@@ -9,14 +9,16 @@ public class Post {
     String title;  // 제목
     String content;  // 본문
     String author;  // 글쓴이
-    LocalDate date; // 날짜
+    LocalDate createdAt; // 생성일
+    LocalDate updatedAt; // 수정일
     String category; // 카테고리
 
-    public Post(String title, String content, String author, LocalDate date, String category) {
+    public Post(String title, String content, String author, LocalDate createdAt, LocalDate updatedAt, String category) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.date = date;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.category = category;
     }
     public Integer getId() {
@@ -26,7 +28,7 @@ public class Post {
         this.id = id;
     }
 
-    // 게시글 조회 -> 제목, 본문 데이터 전달 + 저자, 날짜
+    // 게시글 조회
     public String getTitle(){
         return this.title;
     }
@@ -36,14 +38,17 @@ public class Post {
     public String getAuthor(){
         return this.author;
     }
-    public LocalDate getDate(){
-        return this.date;
+    public LocalDate getCreatedAt(){
+        return this.createdAt;
+    }
+    public LocalDate getUpdatedAt(){
+        return this.updatedAt;
     }
     public String getCategory(){
         return this.category;
     }
 
-    // 게시글 수정 -> 제목, 본문 데이터 교체 + 저자
+    // 게시글 수정
     public void setTitle(String title){
         this.title = title;
     }
@@ -56,4 +61,5 @@ public class Post {
     public void setCategory(String category){
         this.category = category;
     }
+    public void setUpdatedAt(LocalDate updatedAt){this.updatedAt = updatedAt;}
 }

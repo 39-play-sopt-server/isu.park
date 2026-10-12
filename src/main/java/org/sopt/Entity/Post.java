@@ -4,13 +4,14 @@ package org.sopt.Entity;
 import java.time.LocalDate;
 
 public class Post {
-    Long id; // post 구분자
-    String title;  // 제목
-    String content;  // 본문
-    String author;  // 글쓴이
+    Long id;
+    String title;
+    String content;
+    String author;
     LocalDate createdAt; // 생성일
     LocalDate updatedAt; // 수정일
-    Category category; // 카테고리
+    Category category;
+    Integer views;  // 조회수 필드 추가
 
     public Post(
             String title,
@@ -83,5 +84,9 @@ public class Post {
         if (category == null){
             throw new IllegalArgumentException("게시글 카테고리는 필수 입력 항목입니다.");
         }
+    }
+    // 조회수 증가 메소드
+    public void increaseViews(){
+        this.views++;
     }
 }

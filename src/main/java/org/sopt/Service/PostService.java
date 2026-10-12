@@ -35,10 +35,11 @@ public class PostService {
         List<Post> posts = postRepository.findAll();
         return posts;
     }
-    // 3. 게시글 단건 조회
+    // 3. 게시글 단건 조회 -> 상세 조회
     public PostResponse getPost(Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
+        post.increaseViews();  // 조회수 발생 -> 엔티티에 증가 위임
         return new PostResponse(
                 post.getId(),
                 post.getTitle(),

@@ -40,7 +40,7 @@ public class PostController {
             return ApiResponse.error(e.getMessage());
         }
     }
-    // 3. 게시글 단건 조회
+    // 3. 게시글 단건 조회 -> 상세 조회
     @GetMapping(path="/{postId}")
     public ApiResponse<PostResponse> getPost(
             @PathVariable(name="postId") Long postId

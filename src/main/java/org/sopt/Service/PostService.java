@@ -1,6 +1,7 @@
 package org.sopt.Service;
 
 import org.sopt.Dto.PostCreateRequest;
+import org.sopt.Dto.PostResponse;
 import org.sopt.Dto.PostUpdateRequest;
 import org.sopt.Entity.Category;
 import org.sopt.Entity.Post;
@@ -35,10 +36,18 @@ public class PostService {
         return posts;
     }
     // 3. 게시글 단건 조회
-    public Post getPost(Long id){
+    public PostResponse getPost(Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
-        return post;
+        return new PostResponse(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getAuthor(),
+                post.getCategory(),
+                post.getCreatedAt(),
+                post.getUpdatedAt()
+        );
     }
     // 4. 게시글 수정
     public void updatePost(Long id, PostUpdateRequest request) {

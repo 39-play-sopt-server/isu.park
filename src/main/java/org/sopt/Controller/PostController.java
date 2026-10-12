@@ -2,6 +2,7 @@ package org.sopt.Controller;
 
 import org.sopt.Dto.ApiResponse;
 import org.sopt.Dto.PostCreateRequest;
+import org.sopt.Dto.PostResponse;
 import org.sopt.Dto.PostUpdateRequest;
 import org.sopt.Entity.Post;
 import org.sopt.Service.PostService;
@@ -41,11 +42,11 @@ public class PostController {
     }
     // 3. 게시글 단건 조회
     @GetMapping(path="/{postId}")
-    public ApiResponse<Post> getPost(
+    public ApiResponse<PostResponse> getPost(
             @PathVariable(name="postId") Long postId
     ){
         try {
-            Post post = postService.getPost(postId);
+            PostResponse post = postService.getPost(postId);
             return ApiResponse.success(post);
         } catch(Exception e){
             return ApiResponse.error(e.getMessage());

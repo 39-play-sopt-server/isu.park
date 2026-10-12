@@ -10,9 +10,9 @@ public class Post {
     String author;  // 글쓴이
     LocalDate createdAt; // 생성일
     LocalDate updatedAt; // 수정일
-    String category; // 카테고리
+    Category category; // 카테고리
 
-    public Post(String title, String content, String author, LocalDate createdAt, LocalDate updatedAt, String category) {
+    public Post(String title, String content, String author, LocalDate createdAt, LocalDate updatedAt, Category category) {
         this.title = title;
         this.content = content;
         this.author = author;
@@ -43,7 +43,7 @@ public class Post {
     public LocalDate getUpdatedAt(){
         return this.updatedAt;
     }
-    public String getCategory(){
+    public Category getCategory(){
         return this.category;
     }
 
@@ -57,7 +57,7 @@ public class Post {
     public void setAuthor(String author){
         this.author = author;
     }
-    public void setCategory(String category){
+    public void setCategory(Category category){
         this.category = category;
     }
     public void setUpdatedAt(LocalDate updatedAt){this.updatedAt = updatedAt;}

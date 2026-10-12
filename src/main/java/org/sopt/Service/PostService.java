@@ -1,5 +1,6 @@
 package org.sopt.Service;
 
+import org.sopt.Entity.Category;
 import org.sopt.Entity.Post;
 import org.sopt.Repository.PostRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class PostService {
     }
 
     // 1. 게시글 생성
-    public void createPost(String title, String content, String author, String category) {
+    public void createPost(String title, String content, String author, Category category) {
         // null 및 공백 문자열 검증
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("게시글 제목은 필수 입력 항목입니다.");

@@ -19,7 +19,6 @@ public class PostService {
 
     // 1. 게시글 생성
     public void createPost(PostCreateRequest request) {
-        // 검증 통과 후, 게시글 생성
         Post post = new Post(
                 request.title(),
                 request.content(),
@@ -33,9 +32,6 @@ public class PostService {
     // 2. 게시글 목록 조회
     public List<Post> getPosts(){
         List<Post> posts = postRepository.findAll();
-        if(posts.isEmpty()) {
-            throw new IllegalArgumentException("게시글이 없습니다.");
-        }
         return posts;
     }
     // 3. 게시글 단건 조회

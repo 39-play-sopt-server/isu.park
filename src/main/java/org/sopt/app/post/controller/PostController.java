@@ -6,6 +6,8 @@ import org.sopt.app.post.dto.PostResponse;
 import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Post;
 import org.sopt.app.post.service.PostService;
+import org.sopt.global.common.SuccessCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,41 +21,41 @@ public class PostController {
     }
     // 1. 게시글 작성
     @PostMapping
-    public ApiResponse<Void> createPost(
+    public ResponseEntity<ApiResponse<Void>> createPost(
             @RequestBody(required = true) PostCreateRequest request
     ){
         postService.createPost(request);
-        return ApiResponse.success("게시글이 작성되었습니다.");
+        return ApiResponse.success(SuccessCode.RESOURCE_CREATED, null);
     }
     // 2. 게시글 목록 조회
     @GetMapping
-    public ApiResponse<List<Post>> getPosts(){
+    public ResponseEntity<ApiResponse<List<Post>>> getPosts(){
         List<Post> posts = postService.getPosts();
-        return ApiResponse.success(posts);
+        return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
     }
     // 3. 게시글 단건 조회 -> 상세 조회
     @GetMapping(path="/{postId}")
-    public ApiResponse<PostResponse> getPost(
+    public ResponseEntity<ApiResponse<PostResponse>> getPost(
             @PathVariable(name="postId") Long postId
     ){
         PostResponse post = postService.getPost(postId);
-        return ApiResponse.success(post);
+        return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED,post);
     }
     // 4. 게시글 수정
     @PatchMapping(path="/{postId}")
-    public ApiResponse<Void> updatePost(
+    public ResponseEntity<ApiResponse<Void>> updatePost(
             @PathVariable(name="postId") Long postId,
             @RequestBody(required = true) PostUpdateRequest request
     ){
         postService.updatePost(postId, request);
-        return ApiResponse.success("게시글이 수정되었습니다.");
+        return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED, null);
     }
     // 5. 게시글 삭제
     @DeleteMapping(path="/{postId}")
-    public ApiResponse<?> deletePost(
+    public ResponseEntity<ApiResponse<Void>> deletePost(
             @PathVariable(name="postId") Long postId
     ) {
         postService.deletePost(postId);
-        return ApiResponse.success("게시글이 삭제되었습니다.");
+        return ApiResponse.success(SuccessCode.RESOURCE_DELETED, null);
     }
 }

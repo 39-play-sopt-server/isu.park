@@ -1,6 +1,5 @@
 package org.sopt.global.common;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 // 공통 응답 템플릿 - 모든 API 응답 형식 통일

@@ -2,7 +2,6 @@ package org.sopt.global.common;
 
 import org.springframework.http.HttpStatus;
 
-
 public enum SuccessCode {
     // 기본적인 성공 응답
     OPERATION_SUCCESSFUL(HttpStatus.OK, "요청이 성공적으로 처리되었습니다."),

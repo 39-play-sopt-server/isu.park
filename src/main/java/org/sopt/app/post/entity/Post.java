@@ -1,4 +1,4 @@
-package org.sopt.Entity;
+package org.sopt.app.post.entity;
 
 
 import java.time.LocalDate;

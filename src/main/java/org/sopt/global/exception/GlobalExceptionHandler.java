@@ -1,6 +1,6 @@
-package org.sopt.exception;
+package org.sopt.global.exception;
 
-import org.sopt.Dto.ApiResponse;
+import org.sopt.global.common.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,4 +1,4 @@
-package org.sopt.Dto;
+package org.sopt.global.common;
 
 // 공통 응답 DTO
 public class ApiResponse<T> {

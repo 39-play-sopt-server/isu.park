@@ -1,11 +1,10 @@
-package org.sopt.Service;
+package org.sopt.app.post.service;
 
-import org.sopt.Dto.PostCreateRequest;
-import org.sopt.Dto.PostResponse;
-import org.sopt.Dto.PostUpdateRequest;
-import org.sopt.Entity.Category;
-import org.sopt.Entity.Post;
-import org.sopt.Repository.PostRepository;
+import org.sopt.app.post.dto.PostCreateRequest;
+import org.sopt.app.post.dto.PostResponse;
+import org.sopt.app.post.dto.PostUpdateRequest;
+import org.sopt.app.post.entity.Post;
+import org.sopt.app.post.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

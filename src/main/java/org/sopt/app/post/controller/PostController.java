@@ -1,11 +1,11 @@
-package org.sopt.Controller;
+package org.sopt.app.post.controller;
 
-import org.sopt.Dto.ApiResponse;
-import org.sopt.Dto.PostCreateRequest;
-import org.sopt.Dto.PostResponse;
-import org.sopt.Dto.PostUpdateRequest;
-import org.sopt.Entity.Post;
-import org.sopt.Service.PostService;
+import org.sopt.global.common.ApiResponse;
+import org.sopt.app.post.dto.PostCreateRequest;
+import org.sopt.app.post.dto.PostResponse;
+import org.sopt.app.post.dto.PostUpdateRequest;
+import org.sopt.app.post.entity.Post;
+import org.sopt.app.post.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

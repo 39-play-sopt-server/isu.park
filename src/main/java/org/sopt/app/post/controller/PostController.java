@@ -51,7 +51,7 @@ public class PostController {
             @RequestBody(required = true) PostUpdateRequest request
     ){
         postService.updatePost(postId, request);
-        return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED, null);
+        return ApiResponse.success(SuccessCode.RESOURCE_UPDATED, null);
     }
     // 5. 게시글 삭제
     @DeleteMapping(path="/{postId}")

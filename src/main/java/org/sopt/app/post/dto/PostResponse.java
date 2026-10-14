@@ -11,6 +11,7 @@ public record PostResponse(
         String author,
         Category category,
         LocalDate createdAt,
-        LocalDate updatedAt
+        LocalDate updatedAt,
+        Integer views
 ) {
 }

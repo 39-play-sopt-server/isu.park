@@ -48,7 +48,8 @@ public class PostService {
                 post.getAuthor(),
                 post.getCategory(),
                 post.getCreatedAt(),
-                post.getUpdatedAt()
+                post.getUpdatedAt(),
+                post.getViews()
         );
     }
     // 4. 게시글 수정

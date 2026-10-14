@@ -9,7 +9,7 @@ public enum SuccessCode {
     // 리소스 관련 응답
     RESOURCE_CREATED(HttpStatus.CREATED, "리소스가 성공적으로 생성되었습니다."),
     RESOURCE_UPDATED(HttpStatus.OK, "리소스가 성공적으로 업데이트되었습니다."),
-    RESOURCE_DELETED(HttpStatus.NO_CONTENT, "리소스가 성공적으로 삭제되었습니다."),
+    RESOURCE_DELETED(HttpStatus.OK, "리소스가 성공적으로 삭제되었습니다."),
     RESOURCE_RETRIVED(HttpStatus.OK, "리소스가 성공적으로 조회되었습니다.");
 
     private final HttpStatus httpStatus;

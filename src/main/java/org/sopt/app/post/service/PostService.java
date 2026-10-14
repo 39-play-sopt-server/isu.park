@@ -3,6 +3,7 @@ package org.sopt.app.post.service;
 import org.sopt.app.post.dto.PostCreateRequest;
 import org.sopt.app.post.dto.PostResponse;
 import org.sopt.app.post.dto.PostUpdateRequest;
+import org.sopt.app.post.entity.Category;
 import org.sopt.app.post.entity.Post;
 import org.sopt.app.post.repository.PostRepository;
 import org.sopt.global.common.ErrorCode;
@@ -51,6 +52,11 @@ public class PostService {
                 post.getUpdatedAt(),
                 post.getViews()
         );
+    }
+    // 카테고리별 게시글 조회
+    public List<Post> getPostsByCategory(Category category) {
+        List<Post> posts = postRepository.findByCategory(category);
+        return posts;
     }
     // 4. 게시글 수정
     public void updatePost(Long id, PostUpdateRequest request) {

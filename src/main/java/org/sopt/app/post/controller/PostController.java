@@ -1,5 +1,6 @@
 package org.sopt.app.post.controller;
 
+import org.sopt.app.post.entity.Category;
 import org.sopt.global.common.ApiResponse;
 import org.sopt.app.post.dto.PostCreateRequest;
 import org.sopt.app.post.dto.PostResponse;
@@ -43,6 +44,15 @@ public class PostController {
     ){
         PostResponse post = postService.getPost(postId);
         return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED, post);
+    }
+    // 카테고리별 게시물 조회
+    @GetMapping(path="/categories")
+    public ResponseEntity<ApiResponse<List<Post>>> getPostByCategory(
+            @RequestParam(defaultValue = "FREE") Category category
+    ){
+        List<Post> posts = postService.getPostsByCategory(category);
+        return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
+
     }
     // 4. 게시글 수정
     @PatchMapping(path="/{postId}")

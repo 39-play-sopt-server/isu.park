@@ -1,5 +1,6 @@
 package org.sopt.app.post.repository;
 
+import org.sopt.app.post.entity.Category;
 import org.sopt.app.post.entity.Post;
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +37,14 @@ public class HashMapPostRepository implements PostRepository {
         }
         int end = Math.min(start + size, allposts.size());
         return allposts.subList(start, end);  // subList로 원하는 범위만큼 잘라 반환
+    }
+
+    @Override
+    public List<Post> findByCategory(Category category){
+        List<Post> filteredPosts = posts.values().stream()
+                .filter(post -> post.getCategory() == category)
+                .toList();
+        return filteredPosts;
     }
 
     @Override

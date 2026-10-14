@@ -30,8 +30,8 @@ public class PostService {
         postRepository.save(post);
     }
     // 2. 게시글 목록 조회
-    public List<Post> getPosts(){
-        List<Post> posts = postRepository.findAll();
+    public List<Post> getPosts(int page, int size) {
+        List<Post> posts = postRepository.findWithPaging(page, size);
         return posts;
     }
     // 3. 게시글 단건 조회 -> 상세 조회

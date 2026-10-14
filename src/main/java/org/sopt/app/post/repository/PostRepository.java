@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface PostRepository {
     void save(Post post); // 저장
     List<Post> findAll();  // 목록 조회
+    List<Post> findWithPaging(int page, int size);
     Optional<Post> findById(Long id);  // 단건 조회
     void deleteById(Long id);  // 삭제
 }

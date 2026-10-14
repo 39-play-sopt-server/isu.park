@@ -27,6 +27,18 @@ public class HashMapPostRepository implements PostRepository {
     }
 
     @Override
+    public List<Post> findWithPaging(int page, int size){
+        List<Post> allposts = new ArrayList<>(posts.values());
+
+        int start = page * size;
+        if(start >= allposts.size()){
+            return new ArrayList<>(); // 데이터가 없거나, 시작 인덱스가 전체 리스트 크기를 넘어가면 빈 리스트 반환
+        }
+        int end = Math.min(start + size, allposts.size());
+        return allposts.subList(start, end);  // subList로 원하는 범위만큼 잘라 반환
+    }
+
+    @Override
     public Optional<Post> findById(Long id) {   // 게시물 단건 조회
         return Optional.ofNullable(posts.get(id));
     }

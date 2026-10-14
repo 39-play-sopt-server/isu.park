@@ -29,8 +29,11 @@ public class PostController {
     }
     // 2. 게시글 목록 조회
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Post>>> getPosts(){
-        List<Post> posts = postService.getPosts();
+    public ResponseEntity<ApiResponse<List<Post>>> getPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        List<Post> posts = postService.getPosts(page, size);
         return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
     }
     // 3. 게시글 단건 조회 -> 상세 조회

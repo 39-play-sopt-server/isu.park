@@ -42,7 +42,7 @@ public class PostController {
             @PathVariable(name="postId") Long postId
     ){
         PostResponse post = postService.getPost(postId);
-        return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED,post);
+        return ApiResponse.success(SuccessCode.RESOURCE_RETRIVED, post);
     }
     // 4. 게시글 수정
     @PatchMapping(path="/{postId}")

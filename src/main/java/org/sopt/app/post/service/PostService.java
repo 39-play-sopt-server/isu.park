@@ -5,6 +5,8 @@ import org.sopt.app.post.dto.PostResponse;
 import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Post;
 import org.sopt.app.post.repository.PostRepository;
+import org.sopt.global.common.ErrorCode;
+import org.sopt.global.exception.CustomException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,7 +39,7 @@ public class PostService {
     // 3. 게시글 단건 조회 -> 상세 조회
     public PostResponse getPost(Long id){
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.increaseViews();  // 조회수 발생 -> 엔티티에 증가 위임
         return new PostResponse(
                 post.getId(),
@@ -52,7 +54,7 @@ public class PostService {
     // 4. 게시글 수정
     public void updatePost(Long id, PostUpdateRequest request) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.update(
                 request.title(),
                 request.content(),
@@ -65,7 +67,7 @@ public class PostService {
     // 5. 게시글 삭제
     public void deletePost(Long id){
         postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         postRepository.deleteById(id);
     }
 }

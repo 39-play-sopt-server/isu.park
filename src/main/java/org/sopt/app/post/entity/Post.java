@@ -1,6 +1,9 @@
 package org.sopt.app.post.entity;
 
 
+import org.sopt.global.common.ErrorCode;
+import org.sopt.global.exception.CustomException;
+
 import java.time.LocalDate;
 
 public class Post {
@@ -74,16 +77,16 @@ public class Post {
     }
 
     // 게시글 검증 메소드
-    public void validate(String title,String content,Category category){
+    public void validate(String title, String content, Category category){
         if (title == null || title.isEmpty()){
-            throw new IllegalArgumentException("게시글 제목은 필수 입력 항목입니다.");
+            throw new CustomException(ErrorCode.POST_TITLE_EMPTY);
         }
         if (content == null || content.isEmpty()){
-            throw new IllegalArgumentException("게시글 본문은 필수 입력 항목입니다.");
+            throw new CustomException(ErrorCode.POST_CONTENT_EMPTY);
         }
-        if (category == null){
-            throw new IllegalArgumentException("게시글 카테고리는 필수 입력 항목입니다.");
-        }
+        /*if (category == null){
+            throw new CustomException(ErrorCode.POST_CATEGORY_EMPTY);
+        }*/
     }
     // 조회수 증가 메소드
     public void increaseViews(){

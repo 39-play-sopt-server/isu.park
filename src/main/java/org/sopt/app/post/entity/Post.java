@@ -1,16 +1,20 @@
-package org.sopt.Entity;
+package org.sopt.app.post.entity;
 
+
+import org.sopt.global.common.ErrorCode;
+import org.sopt.global.exception.CustomException;
 
 import java.time.LocalDate;
 
 public class Post {
-    Long id; // post 구분자
-    String title;  // 제목
-    String content;  // 본문
-    String author;  // 글쓴이
+    Long id;
+    String title;
+    String content;
+    String author;
     LocalDate createdAt; // 생성일
     LocalDate updatedAt; // 수정일
-    Category category; // 카테고리
+    Category category;
+    Integer views = 0;  // 조회수 필드 추가
 
     public Post(
             String title,
@@ -20,7 +24,7 @@ public class Post {
             LocalDate updatedAt,
             Category category
     ) {
-        validate(title, content, category);  // 초기 검증
+        validate(title, content);  // 초기 검증
         this.title = title;
         this.content = content;
         this.author = author;
@@ -55,6 +59,7 @@ public class Post {
     public Category getCategory(){
         return this.category;
     }
+    public Integer getViews(){return this.views;}
 
     // 게시글 수정 메소드
     public void update(
@@ -64,7 +69,7 @@ public class Post {
             Category category,
             LocalDate updatedAt
     ){
-        validate(title, content, category);  // 초기 검증
+        validate(title, content);  // 초기 검증
         this.title = title;
         this.content = content;
         this.author = author;
@@ -73,15 +78,16 @@ public class Post {
     }
 
     // 게시글 검증 메소드
-    public void validate(String title,String content,Category category){
+    public void validate(String title, String content){
         if (title == null || title.isEmpty()){
-            throw new IllegalArgumentException("게시글 제목은 필수 입력 항목입니다.");
+            throw new CustomException(ErrorCode.POST_TITLE_EMPTY);
         }
         if (content == null || content.isEmpty()){
-            throw new IllegalArgumentException("게시글 본문은 필수 입력 항목입니다.");
+            throw new CustomException(ErrorCode.POST_CONTENT_EMPTY);
         }
-        if (category == null){
-            throw new IllegalArgumentException("게시글 카테고리는 필수 입력 항목입니다.");
-        }
+    }
+    // 조회수 증가 메소드
+    public void increaseViews(){
+        this.views++;
     }
 }

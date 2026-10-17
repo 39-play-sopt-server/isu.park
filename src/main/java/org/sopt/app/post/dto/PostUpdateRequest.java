@@ -1,6 +1,6 @@
-package org.sopt.Dto;
+package org.sopt.app.post.dto;
 
-import org.sopt.Entity.Category;
+import org.sopt.app.post.entity.Category;
 
 public record PostUpdateRequest(
         String title,

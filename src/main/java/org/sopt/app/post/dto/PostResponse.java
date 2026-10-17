@@ -1,6 +1,6 @@
-package org.sopt.Dto;
+package org.sopt.app.post.dto;
 
-import org.sopt.Entity.Category;
+import org.sopt.app.post.entity.Category;
 
 import java.time.LocalDate;
 
@@ -11,6 +11,7 @@ public record PostResponse(
         String author,
         Category category,
         LocalDate createdAt,
-        LocalDate updatedAt
+        LocalDate updatedAt,
+        Integer views
 ) {
 }

@@ -1,16 +1,27 @@
 package org.sopt.Entity;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 
+@Entity
 public class Post {
-    Long id; // post 구분자
-    String title;  // 제목
-    String content;  // 본문
-    String author;  // 글쓴이
-    LocalDate createdAt; // 생성일
-    LocalDate updatedAt; // 수정일
-    Category category; // 카테고리
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;  // 제목
+    private String content;  // 본문
+    private String author;  // 글쓴이
+    private LocalDate createdAt; // 생성일
+    private LocalDate updatedAt; // 수정일
+    private Category category; // 카테고리
+
+    protected Post() {}
 
     public Post(
             String title,

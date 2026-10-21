@@ -24,82 +24,11 @@ import java.util.List;
 @Tag(name="게시물 관리", description = "게시물 CRUD 관련 API")
 @RestController
 @RequestMapping(path = "/api/v1/posts")
-public class PostController {
+public class PostController implements PostApi {
     private final PostService postService;
     public PostController(PostService postService) {  // 의존성 주입
         this.postService = postService;
     }
-    @Operation(
-            summary = "게시물 생성",
-            description = "게시물을 생성합니다.",
-            requestBody = @RequestBody(
-                    description = "게시물 생성 요청 DTO",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "게시글 생성 요청 예시",
-                                            value = """
-                                            {
-                                                "title": "test",
-                                                "content": "test",
-                                                "author": "test",
-                                                "category": "FREE"
-                                            }
-                                            """
-                                  )}))
-    )
-    @ApiResponses({
-            @ApiResponse(  // 생성 성공
-                    responseCode = "201",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name = "게시글 생성 성공", value = """
-                            {
-                                "status": 201,
-                                "success": true,
-                                "data": null,
-                                "message": "리소스가 성공적으로 생성되었습니다."
-                            }
-                            """)})
-            ),
-            @ApiResponse(  // 카테고리가 비었거나 다른 값이 들어갔을 때
-                    responseCode = "400",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name = "카테고리 누락 실패 응답", value = """
-                            {
-                                "status": 400,
-                                "success": false,
-                                "data": null,
-                                "message": "유효하지 않은 카테고리입니다."
-                            }
-                            """)})
-            ),
-            @ApiResponse(  // 빈 제목
-                    responseCode = "400",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name = "제목 누락 실패 응답", value = """
-                            {
-                                "status": 400,
-                                "success": false,
-                                "data": null,
-                                "message": "게시글 제목은 필수 입력 항목입니다."
-                            }
-                            """)})
-            ),
-            @ApiResponse(  // 빈 본문
-                    responseCode = "400",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name = "본문 누락 실패 응답", value = """
-                            {
-                                "status": 400,
-                                "success": false,
-                                "data": null,
-                                "message": "게시글 본문은 필수 입력 항목입니다."
-                            }
-                            """)})
-            )
-    })
     @PostMapping
     public ResponseEntity<BaseResponse<Void>> createPost(
             @RequestBody(required = true) PostCreateRequest request
@@ -107,54 +36,6 @@ public class PostController {
         postService.createPost(request);
         return BaseResponse.success(SuccessCode.RESOURCE_CREATED, null);
     }
-    @Operation(
-            summary = "게시물 목록 조회",
-            description = "게시물 목록(번호, 제목)을 조회합니다.",
-            parameters = {
-                    @Parameter(
-                            name = "page",
-                            description = "조회할 페이지 번호 (0부터 시작)",
-                            example = "0"
-                    ),
-                    @Parameter(
-                            name = "size",
-                            description = "한 페이지당 조회할 게시물 개수",
-                            example = "10"
-                    ),
-            }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="게시글 목록 조회 성공", value = """
-                                    {
-                                        "status": 200,
-                                        "success": true,
-                                        "data": [
-                                            {
-                                                "title": "test",
-                                                "content": "test",
-                                                "author": "test",
-                                                "createdAt": "2026-01-01",
-                                                "updatedAt": "2026-01-02",
-                                                "category": "FREE",
-                                                "id": 2
-                                            }
-                                        ],
-                                        "message": "리소스가 성공적으로 조회되었습니다."
-                                    }
-                                    """),
-                            @ExampleObject(name="게시글 목록 조회 실패(잘못된 page+size/ 데이터 없음)", value = """
-                                    {
-                                        "status": 200,
-                                        "success": true,
-                                        "data": [],
-                                        "message": "리소스가 성공적으로 조회되었습니다."
-                                    }
-                                    """)
-                    }))
-    })
     @GetMapping
     public ResponseEntity<BaseResponse<List<Post>>> getPosts(
             @RequestParam(defaultValue = "0") int page,
@@ -163,49 +44,6 @@ public class PostController {
         List<Post> posts = postService.getPosts(page, size);
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
     }
-    @Operation(
-            summary = "게시글 상세 조회",
-            description = "게시글 ID를 통해 게시물 정보를 조회합니다.",
-            parameters = @Parameter(
-                    name = "postId",
-                    description = "조회할 게시글 ID",
-                    example = "1"
-            )
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="게시글 상세 조회 성공", value = """
-                                    {
-                                        "status": 200,
-                                        "success": true,
-                                        "data": {
-                                                "id": 1,
-                                                "title": "test",
-                                                "content": "test",
-                                                "author": "test",
-                                                "category": "FREE",
-                                                "createdAt": "2026-01-01",
-                                                "updatedAt": "2026-01-02"
-                                        },
-                                        "message": "리소스가 성공적으로 조회되었습니다."
-                                    }
-                            """)})
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="게시글 상세 조회 실패", value = """
-                                    {
-                                        "status": 404,
-                                        "success": false,
-                                        "data": null,
-                                        "message": "존재하지 않는 게시글입니다."
-                                    }
-                            """)})
-            )
-    })
     @GetMapping(path="/{postId}")
     public ResponseEntity<BaseResponse<PostResponse>> getPost(
             @PathVariable(name="postId") Long postId
@@ -213,48 +51,6 @@ public class PostController {
         PostResponse post = postService.getPost(postId);
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, post);
     }
-    @Operation(
-            summary = "카테고리별 게시물 조회",
-            description = "카테고리를 통해 카테고리 별로 게시물 정보를 조회합니다.",
-            parameters = @Parameter(
-                    name = "category",
-                    description = "조회할 게시글의 카테고리",
-                    example = "FREE"
-            )
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="카테고리별 게시글 조회 성공", value = """
-                                    {
-                                        "status": 200,
-                                        "success": true,
-                                        "data": [
-                                            {
-                                                "title": "test1",
-                                                "content": "test1",
-                                                "author": "test1",
-                                                "createdAt": "2026-01-01",
-                                                "updatedAt": "2026-01-02",
-                                                "category": "FREE",
-                                                "id": 1
-                                            },
-                                            {
-                                                "title": "test2",
-                                                "content": "test2",
-                                                "author": "test2",
-                                                "createdAt": "2026-01-01",
-                                                "updatedAt": "2026-01-02",
-                                                "category": "FREE",
-                                                "id": 2
-                                            }
-                                        ],
-                                        "message": "리소스가 성공적으로 조회되었습니다.."
-                                    }
-                                    """)})
-            )
-    })
     @GetMapping(path="/categories")
     public ResponseEntity<BaseResponse<List<Post>>> getPostByCategory(
             @RequestParam(defaultValue = "FREE") Category category
@@ -263,41 +59,6 @@ public class PostController {
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
 
     }
-    @Operation(
-            summary = "게시글 수정",
-            description = "게시글 ID를 통해 게시물 정보를 수정합니다.",
-            parameters = @Parameter(
-                    name = "postId",
-                    description = "수정할 게시글 ID",
-                    example = "1"
-            )
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="게시글 수정 성공", value = """
-                                    {
-                                        "status": 200,
-                                        "success": true,
-                                        "data": null,
-                                        "message": "리소스가 성공적으로 업데이트되었습니다."
-                                    }
-                                    """)})
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="게시글 수정 실패", value = """
-                                    {
-                                        "status": 404,
-                                        "success": false,
-                                        "data": null,
-                                        "message": "존재하지 않는 게시글입니다."
-                                    }
-                            """)})
-            )
-    })
     @PatchMapping(path="/{postId}")
     public ResponseEntity<BaseResponse<Void>> updatePost(
             @PathVariable(name="postId") Long postId,
@@ -306,41 +67,6 @@ public class PostController {
         postService.updatePost(postId, request);
         return BaseResponse.success(SuccessCode.RESOURCE_UPDATED, null);
     }
-    @Operation(
-            summary = "게시글 삭제",
-            description = "게시글 ID를 통해 게시물을 삭제합니다.",
-            parameters = @Parameter(
-                    name = "postId",
-                    description = "삭제할 게시글 Id",
-                    example = "1"
-            )
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="게시글 삭제 성공", value = """
-                                    {
-                                        "status": 200,
-                                        "success": true,
-                                        "data": null,
-                                        "message": "리소스가 성공적으로 삭제되었습니다."
-                                    }
-                                    """)})
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="게시글 삭제 실패", value = """
-                                    {
-                                        "status": 404,
-                                        "success": false,
-                                        "data": null,
-                                        "message": "존재하지 않는 게시글입니다."
-                                    }
-                            """)})
-            )
-    })
     @DeleteMapping(path="/{postId}")
     public ResponseEntity<BaseResponse<Void>> deletePost(
             @PathVariable(name="postId") Long postId

@@ -16,13 +16,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;  // 제목
-    private String content;  // 본문
-    private String author;  // 글쓴이
-    private LocalDate createdAt; // 생성일
-    private LocalDate updatedAt; // 수정일
-    private Category category; // 카테고리
-    private Integer views = 0;  // 조회수
+    private String title;
+    private String content;
+    private String author;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private Category category;
+    private Integer views = 0;
 
     protected Post() {}
 
@@ -44,35 +44,17 @@ public class Post {
         this.views = 0;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id;}
+    public void setId(Long id) { this.id = id;}
 
     // 게시글 조회
-    public String getTitle(){
-        return this.title;
-    }
-    public String getContent(){
-        return this.content;
-    }
-    public String getAuthor(){
-        return this.author;
-    }
-    public LocalDate getCreatedAt(){
-        return this.createdAt;
-    }
-    public LocalDate getUpdatedAt(){
-        return this.updatedAt;
-    }
-    public Category getCategory(){
-        return this.category;
-    }
-    public Integer getViews(){
-        return this.views;
-    }
+    public String getTitle(){ return this.title;}
+    public String getContent(){ return this.content;}
+    public String getAuthor(){ return this.author;}
+    public LocalDate getCreatedAt(){ return this.createdAt;}
+    public LocalDate getUpdatedAt(){ return this.updatedAt;}
+    public Category getCategory(){ return this.category;}
+    public Integer getViews(){ return this.views;}
 
     // 게시글 수정 메소드
     public void update(
@@ -99,7 +81,6 @@ public class Post {
             throw new CustomException(ErrorCode.POST_CONTENT_EMPTY);
         }
     }
-
     // 조회수 증가 메소드
     public void increaseViews(){
         this.views++;

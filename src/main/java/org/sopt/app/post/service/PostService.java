@@ -1,6 +1,8 @@
 package org.sopt.app.post.service;
 
+import jakarta.transaction.Transactional;
 import org.sopt.app.post.dto.PostCreateRequest;
+import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.dto.PostResponse;
 import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Category;
@@ -8,9 +10,11 @@ import org.sopt.app.post.entity.Post;
 import org.sopt.app.post.repository.PostRepository;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,11 +37,19 @@ public class PostService {
         postRepository.save(post);
     }
     // 2. 게시글 목록 조회
-    public List<Post> getPosts(int page, int size) {
-        List<Post> posts = postRepository.findWithPaging(page, size);
-        return posts;
+    public List<PostListResponse> getPosts(int page, int size) {
+        //List<Post> posts = postRepository.findWithPaging(page, size);
+        Pageable pageable = PageRequest.of(page, size);
+        List<Post> posts = postRepository.findAll(pageable).getContent();
+        List<PostListResponse> responseList = new ArrayList<>();
+        for (Post post : posts) {
+            PostListResponse response = PostListResponse.from(post);
+            responseList.add(response);
+        }
+        return responseList;
     }
     // 3. 게시글 단건 조회 -> 상세 조회
+    @Transactional
     public PostResponse getPost(Long id){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));

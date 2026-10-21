@@ -1,6 +1,6 @@
 package org.sopt.global.exception;
 
-import org.sopt.global.common.ApiResponse;
+import org.sopt.global.common.BaseResponse;
 import org.sopt.global.common.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)  // ex. 존재하지 않는 게시글, 필수값 누락 ...
-    public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException e) {
+    public ResponseEntity<BaseResponse<Void>> handleCustomException(CustomException e) {
         ErrorCode errorCode = e.getErrorCode();
-        return ApiResponse.error(errorCode);
+        return BaseResponse.error(errorCode);
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)  // 클라이언트가 Enum에 없는 값 보낼때(Category)
-    public ResponseEntity<ApiResponse<Void>> handlerInvalidEnumException(HttpMessageNotReadableException e) {
-        return ApiResponse.error(ErrorCode.INVALID_CATEGORY);
+    public ResponseEntity<BaseResponse<Void>> handlerInvalidEnumException(HttpMessageNotReadableException e) {
+        return BaseResponse.error(ErrorCode.INVALID_CATEGORY);
     }
     @ExceptionHandler(Exception.class)  // 예상치 못한 서버 예외
-    public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
-        return ApiResponse.error(ErrorCode.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<BaseResponse<Void>> handleException(Exception e) {
+        return BaseResponse.error(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 }

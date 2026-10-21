@@ -1,13 +1,6 @@
 package org.sopt.app.post.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.entity.Category;
 import org.sopt.app.post.dto.PostCreateRequest;
 import org.sopt.app.post.dto.PostResponse;
@@ -21,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name="게시물 관리", description = "게시물 CRUD 관련 API")
 @RestController
 @RequestMapping(path = "/api/v1/posts")
 public class PostController implements PostApi {
@@ -37,11 +29,11 @@ public class PostController implements PostApi {
         return BaseResponse.success(SuccessCode.RESOURCE_CREATED, null);
     }
     @GetMapping
-    public ResponseEntity<BaseResponse<List<Post>>> getPosts(
+    public ResponseEntity<BaseResponse<List<PostListResponse>>> getPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ){
-        List<Post> posts = postService.getPosts(page, size);
+        List<PostListResponse> posts = postService.getPosts(page, size);
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
     }
     @GetMapping(path="/{postId}")

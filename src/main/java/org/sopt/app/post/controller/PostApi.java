@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.sopt.app.post.dto.PostCreateRequest;
+import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.dto.PostResponse;
 import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Category;
@@ -120,7 +121,7 @@ public interface PostApi {
                                     }
                                     """)
                     }))})
-    ResponseEntity<BaseResponse<List<Post>>> getPosts(int page, int size);
+    ResponseEntity<BaseResponse<List<PostListResponse>>> getPosts(int page, int size);
     @Operation(
             summary = "게시글 상세 조회", description = "게시글 ID를 통해 게시물 정보를 조회합니다.",
             parameters = @Parameter(name = "postId", description = "조회할 게시글 ID", example = "1")

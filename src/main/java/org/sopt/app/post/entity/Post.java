@@ -1,9 +1,6 @@
 package org.sopt.app.post.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 
@@ -20,7 +17,11 @@ public class Post {
     private String author;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+
+    @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Column(nullable = false)
     private Integer views = 0;
 
     protected Post() {}
@@ -73,15 +74,15 @@ public class Post {
 
     // 게시글 검증 메소드
     public void validate(String title, String content){
-        if (title == null || title.isEmpty()){
+        if (title == null || title.isBlank()){
             throw new CustomException(ErrorCode.POST_TITLE_EMPTY);
         }
-        if (content == null || content.isEmpty()){
+        if (content == null || content.isBlank()){
             throw new CustomException(ErrorCode.POST_CONTENT_EMPTY);
         }
     }
     // 조회수 증가 메소드
     public void increaseViews(){
-        this.views++;
+        this.views = (this.views == null ? 0 : this.views) + 1;
     }
 }

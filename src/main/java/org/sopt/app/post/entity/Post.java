@@ -1,6 +1,7 @@
 package org.sopt.app.post.entity;
 
 import jakarta.persistence.*;
+import org.sopt.app.member.entity.Member;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 
@@ -17,12 +18,14 @@ public class Post {
     private String author;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-
     @Enumerated(EnumType.STRING)
     private Category category;
-
     @Column(nullable = false)
     private Integer views = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     protected Post() {}
 

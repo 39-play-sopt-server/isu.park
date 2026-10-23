@@ -34,4 +34,5 @@ public class Member {
             throw new CustomException(ErrorCode.MEMBER_PW_EMPTY);
         }
     }
+    public String getName(){return name;}
 }

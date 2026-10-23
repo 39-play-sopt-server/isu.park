@@ -15,7 +15,6 @@ public class Post {
 
     private String title;
     private String content;
-    private String author;
     private LocalDate createdAt;
     private LocalDate updatedAt;
     @Enumerated(EnumType.STRING)
@@ -32,7 +31,7 @@ public class Post {
     public Post(
             String title,
             String content,
-            String author,
+            Member member,
             LocalDate createdAt,
             LocalDate updatedAt,
             Category category
@@ -40,7 +39,7 @@ public class Post {
         validate(title, content);  // 초기 검증
         this.title = title;
         this.content = content;
-        this.author = author;
+        this.member = member;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.category = category;
@@ -53,7 +52,6 @@ public class Post {
     // 게시글 조회
     public String getTitle(){ return this.title;}
     public String getContent(){ return this.content;}
-    public String getAuthor(){ return this.author;}
     public LocalDate getCreatedAt(){ return this.createdAt;}
     public LocalDate getUpdatedAt(){ return this.updatedAt;}
     public Category getCategory(){ return this.category;}
@@ -63,14 +61,12 @@ public class Post {
     public void update(
             String title,
             String content,
-            String author,
             Category category,
             LocalDate updatedAt
     ){
         validate(title, content);  // 초기 검증
         this.title = title;
         this.content = content;
-        this.author = author;
         this.category = category;
         this.updatedAt = updatedAt;
     }
@@ -87,5 +83,9 @@ public class Post {
     // 조회수 증가 메소드
     public void increaseViews(){
         this.views = (this.views == null ? 0 : this.views) + 1;
+    }
+
+    public String getAuthorName(){
+        return member.getName();
     }
 }

@@ -1,5 +1,6 @@
 package org.sopt.app.post.controller;
 
+import org.sopt.app.member.entity.Member;
 import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.entity.Category;
 import org.sopt.app.post.dto.PostCreateRequest;

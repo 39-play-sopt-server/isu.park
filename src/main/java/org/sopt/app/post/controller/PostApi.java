@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.sopt.app.member.entity.Member;
 import org.sopt.app.post.dto.PostCreateRequest;
 import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.dto.PostResponse;

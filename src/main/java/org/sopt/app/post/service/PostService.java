@@ -1,6 +1,8 @@
 package org.sopt.app.post.service;
 
 import jakarta.transaction.Transactional;
+import org.sopt.app.member.entity.Member;
+import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.app.post.dto.PostCreateRequest;
 import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.dto.PostResponse;
@@ -20,16 +22,19 @@ import java.util.List;
 @Service
 public class PostService {
     private final PostRepository postRepository;
-    public PostService(PostRepository postRepository) {   // 의존성 주입
+    private final MemberRepository memberRepository;
+    public PostService(PostRepository postRepository, MemberRepository memberRepository) {   // 의존성 주입
         this.postRepository = postRepository;
+        this.memberRepository = memberRepository;
     }
-
     // 1. 게시글 생성
     public void createPost(PostCreateRequest request) {
+        Member member = memberRepository.findById(request.memberId())
+                .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
         Post post = new Post(
                 request.title(),
                 request.content(),
-                request.author(),
+                member,
                 LocalDate.now(), // 최초 생성시 생성일 = 수정일
                 LocalDate.now(),
                 request.category()
@@ -38,7 +43,6 @@ public class PostService {
     }
     // 2. 게시글 목록 조회
     public List<PostListResponse> getPosts(int page, int size) {
-        //List<Post> posts = postRepository.findWithPaging(page, size);
         Pageable pageable = PageRequest.of(page, size);
         List<Post> posts = postRepository.findAll(pageable).getContent();
         List<PostListResponse> responseList = new ArrayList<>();
@@ -58,7 +62,7 @@ public class PostService {
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getAuthor(),
+                post.getAuthorName(),
                 post.getCategory(),
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
@@ -77,7 +81,6 @@ public class PostService {
         post.update(
                 request.title(),
                 request.content(),
-                request.author(),
                 request.category(),
                 LocalDate.now()
         );

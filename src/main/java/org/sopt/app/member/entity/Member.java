@@ -12,4 +12,14 @@ public class Member {
     private String email;
     private String password;
 
+    protected  Member() {}
+    public Member(
+            String name,
+            String email,
+            String password
+    ) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 }

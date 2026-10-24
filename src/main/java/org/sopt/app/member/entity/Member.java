@@ -1,15 +1,12 @@
 package org.sopt.app.member.entity;
 
 import jakarta.persistence.*;
+import org.sopt.global.common.BaseEntity;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 
 @Entity
-public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Member extends BaseEntity {
     private String name;
     private String email;
     private String password;
@@ -34,5 +31,5 @@ public class Member {
             throw new CustomException(ErrorCode.MEMBER_PW_EMPTY);
         }
     }
-    public String getName(){return name;}
+    public String getName(){ return name;}
 }

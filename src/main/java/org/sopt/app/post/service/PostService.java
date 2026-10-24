@@ -35,8 +35,6 @@ public class PostService {
                 request.title(),
                 request.content(),
                 member,
-                LocalDate.now(), // 최초 생성시 생성일 = 수정일
-                LocalDate.now(),
                 request.category()
         );
         postRepository.save(post);
@@ -58,16 +56,7 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.increaseViews();  // 조회수 발생 -> 엔티티에 증가 위임
-        return new PostResponse(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getAuthorName(),
-                post.getCategory(),
-                post.getCreatedAt(),
-                post.getUpdatedAt(),
-                post.getViews()
-        );
+        return post.toResponse();
     }
     // 카테고리별 게시글 조회
     public List<Post> getPostsByCategory(Category category) {
@@ -81,8 +70,7 @@ public class PostService {
         post.update(
                 request.title(),
                 request.content(),
-                request.category(),
-                LocalDate.now()
+                request.category()
         );
         postRepository.save(post);
     }

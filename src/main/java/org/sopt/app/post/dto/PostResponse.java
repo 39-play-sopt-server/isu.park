@@ -3,6 +3,7 @@ package org.sopt.app.post.dto;
 import org.sopt.app.post.entity.Category;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record PostResponse(
         Long id,
@@ -10,8 +11,8 @@ public record PostResponse(
         String content,
         String author,
         Category category,
-        LocalDate createdAt,
-        LocalDate updatedAt,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
         Integer views
 ) {
 }

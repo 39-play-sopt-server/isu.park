@@ -14,6 +14,7 @@ import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class PostService {
     }
     // 2. 게시글 목록 조회
     public List<PostListResponse> getPosts(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         List<Post> posts = postRepository.findAll(pageable).getContent();
         List<PostListResponse> responseList = new ArrayList<>();
         for (Post post : posts) {

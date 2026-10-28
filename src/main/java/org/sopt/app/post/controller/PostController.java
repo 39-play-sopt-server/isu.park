@@ -41,15 +41,7 @@ public class PostController implements PostApi {
         PostResponse post = postService.getPost(postId);
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, post);
     }
-    @GetMapping(path="/categories")
-    public ResponseEntity<BaseResponse<List<Post>>> getPostByCategory(
-            @RequestParam(defaultValue = "FREE") Category category
-    ){
-        List<Post> posts = postService.getPostsByCategory(category);
-        return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
-
-    }
-    @GetMapping(path ="/search")
+    @GetMapping(path ="/search")  // 동적 쿼리로 게시글 필터링
     public ResponseEntity<BaseResponse<List<PostResponse>>> getPostBySearch(
             @RequestParam(value="category", required = false) Category category,
             @RequestParam(value="authorId", required = false) Long authorId,

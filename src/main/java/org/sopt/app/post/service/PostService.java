@@ -57,12 +57,7 @@ public class PostService {
         post.increaseViews();  // 조회수 발생 -> 엔티티에 증가 위임
         return post.toResponse();
     }
-    // 카테고리별 게시글 조회
-    public List<Post> getPostsByCategory(Category category) {
-        List<Post> posts = postRepository.findByCategory(category);
-        return posts;
-    }
-    // 게시글 검색
+    // 동적 쿼리 -> 게시글 필터링
     public List<PostResponse> getPostBySearch(Category category, Long authorId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 

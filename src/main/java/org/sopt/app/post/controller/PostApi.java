@@ -161,15 +161,20 @@ public interface PostApi {
     })
     ResponseEntity<BaseResponse<PostResponse>> getPost(Long postId);
 
-    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostBySearch(Category category, Long authorId, int page, int size);
     @Operation(
-            summary = "카테고리별 게시물 조회", description = "카테고리를 통해 카테고리 별로 게시물 정보를 조회합니다.",
-            parameters = @Parameter(name = "category", description = "조회할 게시글의 카테고리", example = "FREE")
+            summary = "필터를 통한 게시물 검색", description = "지정한 필터를 통해 그에 맞는 게시물 정보를 조회합니다.",
+            parameters = {
+                    @Parameter(name = "category", description = "조회할 게시글의 카테고리", example = "FREE"),
+                    @Parameter(name = "authorId", description = "조회할 게시글의 작성자 ID", example = "1"),
+                    @Parameter(name = "page", description = "조회할 페이지 번호 (0부터 시작)", example = "0"),
+                    @Parameter(name = "size", description = "한 페이지당 조회할 게시물 개수", example = "10")
+            }
+
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200", content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name="카테고리별 게시글 조회 성공", value = """
+                    @ExampleObject(name="카테고리별 게시글 조회 성공", value = """
                                     {
                                         "status": 200,
                                         "success": true,
@@ -198,7 +203,7 @@ public interface PostApi {
                                     """)})
             )
     })
-    ResponseEntity<BaseResponse<List<Post>>> getPostByCategory(Category category);
+    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostBySearch(Category category, Long authorId, int page, int size);
 
     @Operation(
             summary = "게시글 수정", description = "게시글 ID를 통해 게시물 정보를 수정합니다.",

@@ -26,7 +26,6 @@ public class PostService {
         this.postRepository = postRepository;
         this.memberRepository = memberRepository;
     }
-    // 1. 게시글 생성
     public void createPost(PostCreateRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
@@ -38,7 +37,6 @@ public class PostService {
         );
         postRepository.save(post);
     }
-    // 2. 게시글 목록 조회
     public List<PostListResponse> getPosts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         List<Post> posts = postRepository.findAll(pageable).getContent();
@@ -49,7 +47,6 @@ public class PostService {
         }
         return responseList;
     }
-    // 3. 게시글 단건 조회 -> 상세 조회
     @Transactional
     public PostResponse getPost(Long id){
         Post post = postRepository.findById(id)
@@ -70,8 +67,15 @@ public class PostService {
         return responseList;
 
     }
-
-    // 4. 게시글 수정
+    // 제목으로 게시글 검색
+    public List<PostResponse> getPostsByTitle(String title) {
+        List<Post> posts = postRepository.findByTitleContainingOrderByCreatedAtDesc(title);
+        List<PostResponse> responseList = new ArrayList<>();
+        for (Post post : posts) {
+            responseList.add(post.toResponse());
+        }
+        return responseList;
+    }
     public void updatePost(Long id, PostUpdateRequest request) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
@@ -82,7 +86,6 @@ public class PostService {
         );
         postRepository.save(post);
     }
-    // 5. 게시글 삭제
     public void deletePost(Long id){
         postRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));

@@ -204,6 +204,7 @@ public interface PostApi {
             )
     })
     public ResponseEntity<BaseResponse<List<PostResponse>>> getPostBySearch(Category category, Long authorId, int page, int size);
+    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostByTitle(String title);
 
     @Operation(
             summary = "게시글 수정", description = "게시글 ID를 통해 게시물 정보를 수정합니다.",

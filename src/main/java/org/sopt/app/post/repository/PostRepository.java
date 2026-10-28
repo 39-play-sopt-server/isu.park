@@ -10,8 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
-    List<Post> findAll();  // 목록 조회
+    List<Post> findAll();
     List<Post> findByCategory(Category category);
-    Optional<Post> findById(Long id);  // 단건 조회
-    void deleteById(Long id);  // 삭제
+    List<Post> findByTitleContainingOrderByCreatedAtDesc(String title);
+    Optional<Post> findById(Long id);
+    void deleteById(Long id);
 }

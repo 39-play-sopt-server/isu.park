@@ -51,7 +51,13 @@ public class PostController implements PostApi {
         List<PostResponse> posts = postService.getPostBySearch(category, authorId, page, size);
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
     }
-
+    @GetMapping(path="/title")
+    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostByTitle(
+            @RequestParam(value = "title") String title
+    ){
+        List<PostResponse> posts = postService.getPostsByTitle(title);
+        return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
+    }
     @PatchMapping(path="/{postId}")
     public ResponseEntity<BaseResponse<Void>> updatePost(
             @PathVariable(name="postId") Long postId,

@@ -160,6 +160,8 @@ public interface PostApi {
             )
     })
     ResponseEntity<BaseResponse<PostResponse>> getPost(Long postId);
+
+    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostBySearch(Category category, Long authorId, int page, int size);
     @Operation(
             summary = "카테고리별 게시물 조회", description = "카테고리를 통해 카테고리 별로 게시물 정보를 조회합니다.",
             parameters = @Parameter(name = "category", description = "조회할 게시글의 카테고리", example = "FREE")

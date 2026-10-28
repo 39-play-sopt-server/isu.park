@@ -1,11 +1,8 @@
 package org.sopt.app.post.controller;
 
 import org.sopt.app.member.entity.Member;
-import org.sopt.app.post.dto.PostListResponse;
+import org.sopt.app.post.dto.*;
 import org.sopt.app.post.entity.Category;
-import org.sopt.app.post.dto.PostCreateRequest;
-import org.sopt.app.post.dto.PostResponse;
-import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Post;
 import org.sopt.app.post.service.PostService;
 import org.sopt.global.common.BaseResponse;
@@ -52,6 +49,17 @@ public class PostController implements PostApi {
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
 
     }
+    @GetMapping(path ="/search")
+    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostBySearch(
+            @RequestParam(value="category", required = false) Category category,
+            @RequestParam(value="authorId", required = false) Long authorId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+            ){
+        List<PostResponse> posts = postService.getPostBySearch(category, authorId, page, size);
+        return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
+    }
+
     @PatchMapping(path="/{postId}")
     public ResponseEntity<BaseResponse<Void>> updatePost(
             @PathVariable(name="postId") Long postId,

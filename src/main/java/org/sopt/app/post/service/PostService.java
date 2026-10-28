@@ -3,15 +3,13 @@ package org.sopt.app.post.service;
 import jakarta.transaction.Transactional;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.repository.MemberRepository;
-import org.sopt.app.post.dto.PostCreateRequest;
-import org.sopt.app.post.dto.PostListResponse;
-import org.sopt.app.post.dto.PostResponse;
-import org.sopt.app.post.dto.PostUpdateRequest;
+import org.sopt.app.post.dto.*;
 import org.sopt.app.post.entity.Category;
 import org.sopt.app.post.entity.Post;
 import org.sopt.app.post.repository.PostRepository;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -64,6 +62,20 @@ public class PostService {
         List<Post> posts = postRepository.findByCategory(category);
         return posts;
     }
+    // 게시글 검색
+    public List<PostResponse> getPostBySearch(Category category, Long authorId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Post> postPage = postRepository.findPostsByDynamicFilter(category, authorId, pageable);
+
+        List<PostResponse> responseList = new ArrayList<>();
+        for (Post post : postPage.getContent()) {
+            responseList.add(post.toResponse());
+        }
+        return responseList;
+
+    }
+
     // 4. 게시글 수정
     public void updatePost(Long id, PostUpdateRequest request) {
         Post post = postRepository.findById(id)

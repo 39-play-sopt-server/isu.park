@@ -1,10 +1,8 @@
 package org.sopt.app.post.controller;
 
-import org.sopt.app.post.dto.PostListResponse;
+import org.sopt.app.member.entity.Member;
+import org.sopt.app.post.dto.*;
 import org.sopt.app.post.entity.Category;
-import org.sopt.app.post.dto.PostCreateRequest;
-import org.sopt.app.post.dto.PostResponse;
-import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Post;
 import org.sopt.app.post.service.PostService;
 import org.sopt.global.common.BaseResponse;
@@ -43,13 +41,22 @@ public class PostController implements PostApi {
         PostResponse post = postService.getPost(postId);
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, post);
     }
-    @GetMapping(path="/categories")
-    public ResponseEntity<BaseResponse<List<Post>>> getPostByCategory(
-            @RequestParam(defaultValue = "FREE") Category category
-    ){
-        List<Post> posts = postService.getPostsByCategory(category);
+    @GetMapping(path ="/search")  // 동적 쿼리로 게시글 필터링
+    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostBySearch(
+            @RequestParam(value="category", required = false) Category category,
+            @RequestParam(value="authorId", required = false) Long authorId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+            ){
+        List<PostResponse> posts = postService.getPostBySearch(category, authorId, page, size);
         return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
-
+    }
+    @GetMapping(path="/title")
+    public ResponseEntity<BaseResponse<List<PostResponse>>> getPostByTitle(
+            @RequestParam(value = "title") String title
+    ){
+        List<PostResponse> posts = postService.getPostsByTitle(title);
+        return BaseResponse.success(SuccessCode.RESOURCE_RETRIVED, posts);
     }
     @PatchMapping(path="/{postId}")
     public ResponseEntity<BaseResponse<Void>> updatePost(

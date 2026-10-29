@@ -14,7 +14,12 @@ public enum ErrorCode {
     INVALID_CATEGORY(HttpStatus.BAD_REQUEST, "유효하지 않은 카테고리입니다."),
 
     // 게시물 조회
-    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 게시물입니다.");
+    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 게시물입니다."),
+
+    // 회원
+    MEMBER_NOT_EXIST(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
+    MEMBER_EMAIL_EMPTY(HttpStatus.BAD_REQUEST, "회원의 이메일은 필수 입력 항목입니다."),
+    MEMBER_PW_EMPTY(HttpStatus.BAD_REQUEST, "회원의 비밀번호는 필수 입력 항목입니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

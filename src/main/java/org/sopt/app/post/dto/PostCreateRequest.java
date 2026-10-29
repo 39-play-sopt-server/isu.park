@@ -5,6 +5,6 @@ import org.sopt.app.post.entity.Category;
 public record PostCreateRequest(
         String title,
         String content,
-        String author,
+        Long memberId,
         Category category
 ){}

@@ -18,6 +18,8 @@ public class Post extends BaseEntity {
     private Category category;
     @Column(nullable = false)
     private Integer views = 0;
+    @Column(nullable = false)
+    private Integer likes = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -68,11 +70,13 @@ public class Post extends BaseEntity {
             throw new CustomException(ErrorCode.POST_CONTENT_EMPTY);
         }
     }
-    // 조회수 증가 메소드
     public void increaseViews(){
         this.views = (this.views == null ? 0 : this.views) + 1;
     }
-
+    public void increaseLikes(){
+        this.likes = (this.likes == null ? 0 : this.likes) + 1;
+    }
+    public void decreaseLikes(){this.likes = (this.likes == null ? 0 : this.likes) - 1;}
     public String getAuthorName(){
         return member != null ? member.getName() : "알 수 없음"; // 또는 null
     }
@@ -85,7 +89,8 @@ public class Post extends BaseEntity {
                 this.category,
                 this.createdAt,
                 this.updatedAt,
-                this.views
+                this.views,
+                this.likes
         );
     }
 }

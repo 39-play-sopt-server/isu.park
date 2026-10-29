@@ -13,6 +13,7 @@ public record PostResponse(
         Category category,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        Integer views
+        Integer views,
+        Integer likes
 ) {
 }

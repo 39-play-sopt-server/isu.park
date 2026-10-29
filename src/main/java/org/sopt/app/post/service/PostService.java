@@ -26,6 +26,7 @@ public class PostService {
         this.postRepository = postRepository;
         this.memberRepository = memberRepository;
     }
+    @Transactional
     public void createPost(PostCreateRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
@@ -86,6 +87,7 @@ public class PostService {
         );
         postRepository.save(post);
     }
+    @Transactional
     public void deletePost(Long id){
         postRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));

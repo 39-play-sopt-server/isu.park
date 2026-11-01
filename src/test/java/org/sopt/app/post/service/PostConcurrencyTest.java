@@ -34,7 +34,7 @@ public class PostConcurrencyTest {
         Post savedPost = postRepository.save(post);
         Long postId = savedPost.getId();
 
-        int threadCount = 100;
+        int threadCount = 10000;
         ExecutorService executorService = Executors.newFixedThreadPool(32);
         CountDownLatch countDownLatch = new CountDownLatch(threadCount);
 

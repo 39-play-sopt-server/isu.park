@@ -1,5 +1,5 @@
 # 1. OpenJDK 17 슬림 런타임 이미지 사용
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk
 
 # 2. 작업 디렉터리 지정
 WORKDIR /app

@@ -1,0 +1,8 @@
+.git
+.gitignore
+*.md
+nohup.out
+*.log
+.gradle
+build/
+!build/libs/*.jar

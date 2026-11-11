@@ -1,5 +1,5 @@
 ---
-name: "[FEEDBACK TEMPLATE]"
+name: "피드백 템플릿"
 about: "코드 리뷰 및 피드백 반영 작업을 등록합니다"
 title: "[Refactor] "
 ---

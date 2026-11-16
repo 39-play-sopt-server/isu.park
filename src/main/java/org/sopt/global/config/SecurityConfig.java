@@ -25,8 +25,9 @@ public class SecurityConfig {
         this.jwtProvider = jwtProvider;
     }
 
+    // FilterChain 등록
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {  // FilterChain 등록해주기
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 // CSRF 비활성화, Authorization 헤더로 보내면 CSRF의 전제 조건이 없기 때문
                 .csrf(AbstractHttpConfigurer::disable)
@@ -57,7 +58,7 @@ public class SecurityConfig {
                 .build();
     }
     @Bean
-    public PasswordEncoder passwordEncoder() { // 왜 Bean으로 등록? -> passwordEncoder가 interface? -> @Component 쓰면 PasswordEncoder을 그냥 반환, but 우리는 BCryptPasswordEncoder()가 필요
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

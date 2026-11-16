@@ -18,8 +18,10 @@ public enum ErrorCode {
 
     // 회원
     MEMBER_NOT_EXIST(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
+    EMAIL_ALREADY_EXIST(HttpStatus.NOT_FOUND, "이미 가입된 이메일입니다."),
     MEMBER_EMAIL_EMPTY(HttpStatus.BAD_REQUEST, "회원의 이메일은 필수 입력 항목입니다."),
     MEMBER_PW_EMPTY(HttpStatus.BAD_REQUEST, "회원의 비밀번호는 필수 입력 항목입니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;

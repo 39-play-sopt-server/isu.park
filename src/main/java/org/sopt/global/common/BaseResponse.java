@@ -19,7 +19,7 @@ public class BaseResponse<T> {
 
     public int getStatus() { return status; }
     public boolean isSuccess() { return success; }
-    public String getMessgae() { return message; }
+    public String getMessage() { return message; }
     public T getData(){ return data; }
 
     // 성공 시 응답

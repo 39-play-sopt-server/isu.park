@@ -23,10 +23,7 @@ public class BaseResponse<T> {
     public T getData(){ return data; }
 
     // 성공 시 응답
-    public static <T> ResponseEntity<BaseResponse<T>> success(
-            SuccessCode successCode
-            ,T data
-    ) {
+    public static <T> ResponseEntity<BaseResponse<T>> success(SuccessCode successCode,T data) {
         return ResponseEntity
                 .status(successCode.getHttpStatus())
                 .body(new BaseResponse<>(
@@ -37,9 +34,7 @@ public class BaseResponse<T> {
                 ));
     }
     // 실패 응답 - data 없음
-    public static <T> ResponseEntity<BaseResponse<T>> error(
-            ErrorCode errorCode
-    ){
+    public static <T> ResponseEntity<BaseResponse<T>> error(ErrorCode errorCode){
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
                 .body(new BaseResponse<>(
@@ -50,10 +45,7 @@ public class BaseResponse<T> {
                 ));
     }
     // 실패 응답 - data 없음
-    public static <T> ResponseEntity<BaseResponse<T>> error(
-            ErrorCode errorCode,
-            T data
-    ){
+    public static <T> ResponseEntity<BaseResponse<T>> error(ErrorCode errorCode, T data){
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
                 .body(new BaseResponse<>(
@@ -63,5 +55,11 @@ public class BaseResponse<T> {
                         data
                 ));
     }
+    public static ResponseEntity<BaseResponse<Void>> error(ErrorCode errorCode, String customMessage) {
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(new BaseResponse<>(errorCode.getHttpStatus().value(), false, customMessage, null));
+    }
+
 
 }

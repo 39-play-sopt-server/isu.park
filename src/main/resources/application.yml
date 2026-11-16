@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:3306/assignment
-    username: root
-    password: "psu1216!!"
+    username: ${DB_USER}
+    password: ${DB_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -16,3 +16,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-token-expiration: 1800000 # 30분 (ms)

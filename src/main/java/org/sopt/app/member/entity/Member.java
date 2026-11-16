@@ -7,8 +7,13 @@ import org.sopt.global.exception.CustomException;
 
 @Entity
 public class Member extends BaseEntity {
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     protected  Member() {}
@@ -31,5 +36,8 @@ public class Member extends BaseEntity {
             throw new CustomException(ErrorCode.MEMBER_PW_EMPTY);
         }
     }
+    public Long getId() {return id;}
     public String getName(){ return name;}
+    public String getEmail(){ return email;}
+    public String getPassword(){ return password;}
 }

@@ -1,29 +1,34 @@
 package org.sopt.app.member.controller;
 
-import org.sopt.app.member.dto.MemberCreateRequest;
+import org.sopt.app.member.dto.LoginRequest;
+import org.sopt.app.member.dto.LoginResponse;
+import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
+import org.sopt.app.member.dto.SignupRequest;
 import org.sopt.app.member.service.MemberService;
 import org.sopt.global.common.BaseResponse;
 import org.sopt.global.common.SuccessCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api/v1/members")
+@RequestMapping(path = "/api/v1/member")
 public class MemberController {
     private final MemberService memberService;
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
-    @PostMapping
-    public ResponseEntity<BaseResponse<Void>> createMember(
-            @RequestBody(required = true) MemberCreateRequest request) {
-        memberService.createMember(request);
-        return BaseResponse.success(SuccessCode.RESOURCE_CREATED, null);
-    }
+
     @DeleteMapping(path= "/{memberId}")
-    public ResponseEntity<BaseResponse<Void>> deleteMember(
-            @PathVariable Long memberId) {
+    public ResponseEntity<BaseResponse<Void>> deleteMember(@PathVariable Long memberId) {
         memberService.deleteMember(memberId);
         return BaseResponse.success(SuccessCode.RESOURCE_DELETED, null);
     }
+    @GetMapping("/me")
+    public ResponseEntity<BaseResponse<Long>> me(@AuthenticationPrincipal Long memberId) { // 인증 필터를 모두 거쳐 controller 까지 요청 들어왔을 때, 자동으로 security에 등록된 principal을 가져오라는 어노테이션임
+        return BaseResponse.success(SuccessCode.MEMBER_INFO_RETRIEVED, memberId);
+    }
+
+
 }

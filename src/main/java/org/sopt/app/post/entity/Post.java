@@ -13,6 +13,7 @@ import org.sopt.global.exception.CustomException;
 import java.time.LocalDate;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
 

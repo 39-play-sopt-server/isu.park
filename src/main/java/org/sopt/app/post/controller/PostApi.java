@@ -8,23 +8,17 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.sopt.app.member.entity.Member;
 import org.sopt.app.post.dto.PostCreateRequest;
 import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.dto.PostResponse;
 import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Category;
-import org.sopt.app.post.entity.Post;
-import org.sopt.app.post.service.PostService;
 import org.sopt.global.common.BaseResponse;
-import org.sopt.global.common.SuccessCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Tag(name="게시물 관리", description = "게시물 CRUD 관련 API")
-public interface PostApi {
+interface PostApi {
     @Operation(
             summary = "게시물 생성", description = "게시물을 생성합니다.",
             requestBody = @RequestBody(

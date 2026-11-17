@@ -1,7 +1,11 @@
 package org.sopt.global.common;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+@Getter
+@RequiredArgsConstructor
 public enum ErrorCode {
     // 공통 에러
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 리소스를 찾지 못했습니다."),
@@ -35,11 +39,4 @@ public enum ErrorCode {
 
     private final HttpStatus httpStatus;
     private final String message;
-
-    ErrorCode(HttpStatus httpStatus, String message) {
-        this.httpStatus = httpStatus;
-        this.message = message;
-    }
-    public HttpStatus getHttpStatus() { return httpStatus; }
-    public String getMessage() { return message; }
 }

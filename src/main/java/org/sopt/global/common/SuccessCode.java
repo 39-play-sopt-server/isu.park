@@ -1,7 +1,11 @@
 package org.sopt.global.common;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+@Getter
+@RequiredArgsConstructor
 public enum SuccessCode {
     // 기본적인 성공 응답
     OPERATION_SUCCESSFUL(HttpStatus.OK, "요청이 성공적으로 처리되었습니다."),
@@ -23,11 +27,4 @@ public enum SuccessCode {
 
     private final HttpStatus httpStatus;
     private final String message;
-
-    private SuccessCode(HttpStatus httpStatus, String message) {
-        this.httpStatus = httpStatus;
-        this.message = message;
-    }
-    public HttpStatus getHttpStatus() { return httpStatus; }
-    public String getMessage() { return message; }
 }

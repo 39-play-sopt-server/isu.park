@@ -1,5 +1,6 @@
 package org.sopt.app.post.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.post.dto.*;
 import org.sopt.app.post.entity.Category;
@@ -13,12 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/posts")
 public class PostController implements PostApi {
     private final PostService postService;
-    public PostController(PostService postService) {  // 의존성 주입
-        this.postService = postService;
-    }
     @PostMapping
     public ResponseEntity<BaseResponse<Void>> createPost(
             @RequestBody(required = true) PostCreateRequest request

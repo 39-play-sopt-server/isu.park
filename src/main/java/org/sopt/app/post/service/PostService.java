@@ -1,6 +1,7 @@
 package org.sopt.app.post.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.app.post.dto.*;
@@ -19,13 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
-    public PostService(PostRepository postRepository, MemberRepository memberRepository) {   // 의존성 주입
-        this.postRepository = postRepository;
-        this.memberRepository = memberRepository;
-    }
+
     @Transactional
     public void createPost(PostCreateRequest request) {
         Member member = memberRepository.findById(request.memberId())

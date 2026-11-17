@@ -1,6 +1,7 @@
 package org.sopt.app.member.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.dto.LoginRequest;
 import org.sopt.app.member.dto.LoginResponse;
 import org.sopt.app.member.dto.SignupRequest;
@@ -14,13 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse<Long>> signup(@Valid @RequestBody SignupRequest request) {

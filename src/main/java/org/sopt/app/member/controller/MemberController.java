@@ -1,5 +1,6 @@
 package org.sopt.app.member.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.dto.LoginRequest;
 import org.sopt.app.member.dto.LoginResponse;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,12 +14,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/member")
 public class MemberController {
     private final MemberService memberService;
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @DeleteMapping(path= "/{memberId}")
     public ResponseEntity<BaseResponse<Void>> deleteMember(@PathVariable Long memberId) {

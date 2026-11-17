@@ -1,10 +1,15 @@
 package org.sopt.app.member.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.sopt.global.common.BaseEntity;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member extends BaseEntity {
     @Column(nullable = false, unique = true)
@@ -16,7 +21,6 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    protected  Member() {}
     public Member(
             String name,
             String email,
@@ -36,8 +40,4 @@ public class Member extends BaseEntity {
             throw new CustomException(ErrorCode.MEMBER_PW_EMPTY);
         }
     }
-    public Long getId() {return id;}
-    public String getName(){ return name;}
-    public String getEmail(){ return email;}
-    public String getPassword(){ return password;}
 }

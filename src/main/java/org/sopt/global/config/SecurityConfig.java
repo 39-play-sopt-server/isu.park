@@ -1,5 +1,6 @@
 package org.sopt.global.config;
 
+import lombok.RequiredArgsConstructor;
 import org.sopt.global.jwt.JwtAuthenticationFilter;
 import org.sopt.global.jwt.JwtProvider;
 import org.springframework.context.annotation.Bean;
@@ -17,13 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtProvider jwtProvider;
-
-    public SecurityConfig(JwtProvider jwtProvider) {
-        this.jwtProvider = jwtProvider;
-    }
 
     // FilterChain 등록
     @Bean

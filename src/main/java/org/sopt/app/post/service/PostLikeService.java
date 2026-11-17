@@ -1,6 +1,7 @@
 package org.sopt.app.post.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.app.post.entity.Post;
@@ -13,21 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class PostLikeService {
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final MemberRepository memberRepository;
 
-    public PostLikeService(
-            PostRepository postRepository,
-            MemberRepository memberRepository,
-            PostLikeRepository postLikeRepository
-    ) {
-        this.postRepository = postRepository;
-        this.memberRepository = memberRepository;
-        this.postLikeRepository = postLikeRepository;
-    }
     public void createPostLike(Long postId, Long memberId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new CustomException(ErrorCode.POST_NOT_FOUND));

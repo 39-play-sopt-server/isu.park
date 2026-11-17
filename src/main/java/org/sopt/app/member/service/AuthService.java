@@ -1,5 +1,6 @@
 package org.sopt.app.member.service;
 
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.global.common.ErrorCode;
@@ -10,17 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
-
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public AuthService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider) {
-        this.memberRepository = memberRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtProvider = jwtProvider;
-    }
 
     @Transactional
     public Long signup(String name, String email, String password) {

@@ -1,5 +1,6 @@
 package org.sopt.app.post.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.post.service.PostLikeService;
 import org.sopt.global.common.BaseResponse;
 import org.sopt.global.common.SuccessCode;
@@ -7,13 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/posts/")
 public class PostLikeController {
     private final PostLikeService postLikeService;
-
-    public PostLikeController(PostLikeService postLikeService) {
-        this.postLikeService = postLikeService;
-    }
 
     @PostMapping(path = "{postId}/likes")
     public ResponseEntity<BaseResponse<Void>> createPostLike(

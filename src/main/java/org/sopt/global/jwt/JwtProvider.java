@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
+import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
@@ -30,9 +31,11 @@ public class JwtProvider {
         this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
+    // access 토큰 발급
     public String createAccessToken(Long memberId) {
         return createToken(memberId, TokenType.ACCESS_TOKEN, accessTokenExpiration);
     }
+    // refresh 토큰 발급
     public String createRefreshToken(Long memberId) {
         return createToken(memberId, TokenType.REFRESH_TOKEN, refreshTokenExpiration);
     }
@@ -42,25 +45,36 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .id(UUID.randomUUID().toString())  // token ID
-                .subject(String.valueOf(memberId))  // 누구의 토큰인지
+                .subject(String.valueOf(memberId))  // 토큰 주체 = memberId
                 .claim(CLAIM_TYPE, type.getType())
-                .issuedAt(now)                       // 발급 시각
-                .expiration(new Date(now.getTime() + expiration)) // 만료 시각
-                .signWith(secretKey)                 // 서명
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + expiration))
+                .signWith(secretKey)
                 .compact();
     }
 
     public Long getMemberId(String token, TokenType expectedType) {
-        Claims claims = Jwts.parser()
+        Claims claims = parseClaims(token);
+        validateType(claims, expectedType);
+
+        return Long.valueOf(claims.getSubject());
+    }
+    public Instant getExpiration(String token, TokenType expectedType) {
+        Claims claims = parseClaims(token);
+        validateType(claims, expectedType);
+
+        return claims.getExpiration().toInstant();
+    }
+    private Claims parseClaims(String token) {
+        return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)  // 서명, 만료 검증 → 실패 시 JwtException
                 .getPayload();
-
-        if (!expectedType.equals(claims.get(CLAIM_TYPE, String.class))) {
+    }
+    private void validateType(Claims claims, TokenType expectedType) {
+        if (!expectedType.getType().equals(claims.get(CLAIM_TYPE, String.class))) {
             throw new JwtException("잘못된 토큰 종류입니다.");
         }
-
-        return Long.valueOf(claims.getSubject());
     }
 }

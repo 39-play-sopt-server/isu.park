@@ -52,7 +52,7 @@ public class AuthService {
                 .ifPresentOrElse(
                         savedToken -> savedToken.rotate(refreshToken, expiresAt),
                         () -> refreshTokenRepository.save(
-                                new RefreshToken(member, accessToken, expiresAt)
+                                new RefreshToken(member, refreshToken, expiresAt)
                         )
                 );
 
@@ -81,7 +81,7 @@ public class AuthService {
         Instant newExpiresAt = jwtProvider.getExpiration(newRefreshToken, TokenType.REFRESH_TOKEN);
 
         // 이전 refresh 토큰을 새로운 것으로 대체(재사용 방지)
-        savedToken.rotate(newAccessToken, newExpiresAt);
+        savedToken.rotate(newRefreshToken, newExpiresAt);
 
         return new LoginResponse(newAccessToken, newRefreshToken);
     }

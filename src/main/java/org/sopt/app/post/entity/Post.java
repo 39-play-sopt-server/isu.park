@@ -67,6 +67,14 @@ public class Post extends BaseEntity {
             throw new CustomException(ErrorCode.POST_CONTENT_EMPTY);
         }
     }
+
+    public String getAuthorName(){
+        if(member == null || member.isWithdrawn()){
+            return "탈퇴한 회원";
+        }
+        return member.getName();
+    }
+
     public void increaseViews(){
         this.views = (this.views == null ? 0 : this.views) + 1;
     }
@@ -74,9 +82,6 @@ public class Post extends BaseEntity {
         this.likes = (this.likes == null ? 0 : this.likes) + 1;
     }
     public void decreaseLikes(){this.likes = (this.likes == null ? 0 : this.likes) - 1;}
-    public String getAuthorName(){
-        return member != null ? member.getName() : "알 수 없음"; // 또는 null
-    }
     public PostResponse toResponse() {
         return new PostResponse(
                 this.id,

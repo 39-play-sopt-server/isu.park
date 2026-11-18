@@ -78,7 +78,7 @@ interface PostApi {
                             """)})
             )
     })
-    ResponseEntity<BaseResponse<Void>> createPost(PostCreateRequest request);
+    ResponseEntity<BaseResponse<Void>> createPost(Long memberId, PostCreateRequest request);
 
     @Operation(
             summary = "게시물 목록 조회", description = "게시물 목록(번호, 제목)을 조회합니다.",
@@ -228,7 +228,7 @@ interface PostApi {
                             """)})
             )
     })
-    ResponseEntity<BaseResponse<Void>> updatePost(Long postId, PostUpdateRequest request);
+    ResponseEntity<BaseResponse<Void>> updatePost(Long memberId, Long postId, PostUpdateRequest request);
 
     @Operation(
             summary = "게시글 삭제", description = "게시글 ID를 통해 게시물을 삭제합니다.",
@@ -258,6 +258,6 @@ interface PostApi {
                             """)})
             )
     })
-    ResponseEntity<BaseResponse<Void>> deletePost(Long postId);
+    ResponseEntity<BaseResponse<Void>> deletePost(Long memberId, Long postId);
 }
 

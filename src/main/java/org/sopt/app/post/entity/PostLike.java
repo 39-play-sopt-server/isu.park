@@ -6,6 +6,12 @@ import lombok.NoArgsConstructor;
 import org.sopt.app.member.entity.Member;
 
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uk_post_like_member_post",
+                columnNames = {"member_id", "post_id"}
+        )
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostLike {
     @Id

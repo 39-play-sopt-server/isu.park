@@ -26,6 +26,10 @@ public class PostLikeService {
                 .orElseThrow(()-> new CustomException(ErrorCode.POST_NOT_FOUND));
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+
+        if(postLikeRepository.existsByMember_IdAndPost_Id(memberId, postId)){
+            throw new CustomException(ErrorCode.POST_ALREADY_LIKED);
+        }
         PostLike postLike = new PostLike(post, member);
         postLikeRepository.save(postLike);
         post.increaseLikes();
@@ -38,4 +42,5 @@ public class PostLikeService {
         postLikeRepository.deleteByMemberAndPost(member,post);
         post.decreaseLikes();
     }
+
 }

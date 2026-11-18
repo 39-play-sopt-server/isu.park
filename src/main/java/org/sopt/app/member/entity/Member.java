@@ -21,6 +21,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private boolean withdrawn = false;
+
     public Member(
             String name,
             String email,
@@ -39,5 +42,15 @@ public class Member extends BaseEntity {
         if(password == null || password.isEmpty()){
             throw new CustomException(ErrorCode.MEMBER_PW_EMPTY);
         }
+    }
+    public void anonymize(  // 회원 탈퇴시, 익명화 처리
+            String anonymousName,
+            String anonymousEmail,
+            String encodedRandomPassword
+    ){
+        this.name = anonymousName;
+        this.email = anonymousEmail;
+        this.password = encodedRandomPassword;
+        this.withdrawn = true;
     }
 }

@@ -2,7 +2,6 @@ package org.sopt.app.post.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.sopt.app.member.dto.SignupRequest;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.app.post.dto.*;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,14 +74,14 @@ public class PostService {
     // 글 작성자만 수정 가능
     @Transactional
     public void updatePost(Long postId, Long memberId, String title, String content, Category category) {
-        Post post = getPostOwnedBy(memberId, postId);
+        Post post = getPostOwnedBy(postId, memberId);
         post.update(title, content, category);
         postRepository.save(post);
     }
     // 글 작성자만 삭제 가능
     @Transactional
     public void deletePost(Long memberId, Long postId) {
-        Post post = getPostOwnedBy(memberId, postId);
+        Post post = getPostOwnedBy(postId, memberId);
         postRepository.delete(post);
     }
     // 게세글의 존재 여부 + 현재 회원이 작성자인지 확인

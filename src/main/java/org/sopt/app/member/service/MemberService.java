@@ -8,6 +8,7 @@ import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
@@ -23,6 +24,7 @@ public class MemberService {
         memberRepository.deleteById(id);
     }
 
+    @Transactional
     public void withdraw(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));

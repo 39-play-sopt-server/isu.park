@@ -25,8 +25,10 @@ public enum ErrorCode {
     POST_CATEGORY_EMPTY(HttpStatus.BAD_REQUEST,"게시글 카테고리는 필수 입력 항목입니다."),
     INVALID_CATEGORY(HttpStatus.BAD_REQUEST, "유효하지 않은 카테고리입니다."),
 
-    // 게시물 조회
+    // 게시물
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 게시물입니다."),
+    POST_FORBIDDEN(HttpStatus.FORBIDDEN, "이 게시글에 대한 권한이 없습니다."),
+    POST_ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요를 누른 게시글입니다."),
 
     // 회원
     MEMBER_NOT_EXIST(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),

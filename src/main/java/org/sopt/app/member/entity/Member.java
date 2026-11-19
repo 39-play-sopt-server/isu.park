@@ -24,6 +24,10 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private boolean withdrawn = false;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Role role = Role.USER;
+
     public Member(
             String name,
             String email,
@@ -33,6 +37,7 @@ public class Member extends BaseEntity {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = Role.USER;      // 가입 경로로는 항상 USER
     }
 
     public void validate(String email, String password) {
@@ -52,5 +57,8 @@ public class Member extends BaseEntity {
         this.email = anonymousEmail;
         this.password = encodedRandomPassword;
         this.withdrawn = true;
+    }
+    public boolean isAdmin() {
+        return Role.ADMIN.equals(role);
     }
 }

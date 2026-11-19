@@ -6,8 +6,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.sopt.app.member.entity.Role;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
@@ -27,10 +29,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null) {
             try {
                 Long memberId = jwtProvider.getMemberId(token, TokenType.ACCESS_TOKEN);
+                Role role = jwtProvider.getRole(token);
 
                 // 인증 완료된 Authentication 생성 후 SecurityContext에 저장
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(memberId, null, List.of());  // principal, credentials, authorities
+                        new UsernamePasswordAuthenticationToken(memberId, null, List.of(new SimpleGrantedAuthority(role.authority())));  // principal, credentials, authorities
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (JwtException | IllegalArgumentException e) {
                 request.setAttribute("jwtError", "INVALID");

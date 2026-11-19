@@ -1,10 +1,12 @@
 package org.sopt.global.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.sopt.app.member.entity.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
@@ -20,6 +22,7 @@ public class JwtProvider {
     private final long refreshTokenExpiration;
 
     private static final String CLAIM_TYPE = "type";
+    private static final String CLAIM_ROLE = "role";
 
     public JwtProvider(
             @Value("${jwt.secret}") String secret,
@@ -32,25 +35,33 @@ public class JwtProvider {
     }
 
     // access 토큰 발급
-    public String createAccessToken(Long memberId) {
-        return createToken(memberId, TokenType.ACCESS_TOKEN, accessTokenExpiration);
+    public String createAccessToken(Long memberId, Role role) {
+        return createToken(memberId, TokenType.ACCESS_TOKEN, accessTokenExpiration, role);
     }
     // refresh 토큰 발급
     public String createRefreshToken(Long memberId) {
-        return createToken(memberId, TokenType.REFRESH_TOKEN, refreshTokenExpiration);
+        return createToken(memberId, TokenType.REFRESH_TOKEN, refreshTokenExpiration, null);
     }
 
-    public String createToken(Long memberId, TokenType type, long expiration) {
+    public String createToken(Long memberId, TokenType type, long expiration, Role role) {
         Date now = new Date();
 
-        return Jwts.builder()
+        JwtBuilder builder = Jwts.builder()
                 .id(UUID.randomUUID().toString())  // token ID
                 .subject(String.valueOf(memberId))  // 토큰 주체 = memberId
                 .claim(CLAIM_TYPE, type.getType())
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + expiration))
-                .signWith(secretKey)
-                .compact();
+                .signWith(secretKey);
+        if (role != null) {
+            builder.claim(CLAIM_ROLE, role.name());
+        }
+        return builder.compact();
+    }
+
+    public Role getRole(String accessToken) {
+        String role = parseClaims(accessToken).get(CLAIM_ROLE, String.class);
+        return Role.valueOf(role);
     }
 
     public Long getMemberId(String token, TokenType expectedType) {
@@ -77,4 +88,5 @@ public class JwtProvider {
             throw new JwtException("잘못된 토큰 종류입니다.");
         }
     }
+
 }

@@ -18,11 +18,6 @@ public class MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void deleteMember(Long id) {
-        memberRepository.findById(id)
-                        .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
-        memberRepository.deleteById(id);
-    }
 
     @Transactional
     public void withdraw(Long memberId) {
@@ -31,11 +26,14 @@ public class MemberService {
 
         String uuid = UUID.randomUUID().toString();
 
+        if (member.isWithdrawn()) { throw new CustomException(ErrorCode.MEMBER_ALREADY_WITHDRAWN);}
+
+        refreshTokenRepository.deleteByMember_Id(memberId);
+        // 익명화
         String anonymousName = "withdrawn-"+ uuid;
         String anonymousEmail = "withdrawn-"+uuid+"@example.invalid";
         String encodedRandomPassword = passwordEncoder.encode(UUID.randomUUID().toString());
 
-        refreshTokenRepository.deleteByMember_Id(memberId);  // refresh 토큰 폐기
         member.anonymize(anonymousName, anonymousEmail, encodedRandomPassword);
     }
 }

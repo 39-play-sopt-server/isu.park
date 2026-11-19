@@ -14,11 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @DeleteMapping(path= "/{memberId}")  // id로 삭제
-    public ResponseEntity<BaseResponse<Void>> deleteMember(@PathVariable Long memberId) {
-        memberService.deleteMember(memberId);
-        return BaseResponse.success(SuccessCode.RESOURCE_DELETED, null);
-    }
     @DeleteMapping(path="/me")
     public ResponseEntity<BaseResponse<Void>> deleteMe(@AuthenticationPrincipal Long memberId) {
         memberService.withdraw(memberId);
@@ -26,7 +21,7 @@ public class MemberController {
     }
 
     @GetMapping(path="/me")
-    public ResponseEntity<BaseResponse<Long>> me(@AuthenticationPrincipal Long memberId) { // 인증 필터를 모두 거쳐 controller 까지 요청 들어왔을 때, 자동으로 security에 등록된 principal을 가져오라는 어노테이션임
+    public ResponseEntity<BaseResponse<Long>> me(@AuthenticationPrincipal Long memberId) {
         return BaseResponse.success(SuccessCode.MEMBER_INFO_RETRIEVED, memberId);
     }
 

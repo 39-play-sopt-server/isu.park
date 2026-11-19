@@ -27,7 +27,7 @@ public enum SuccessCode {
     MEMBER_LOGIN_SUCCESS(HttpStatus.OK,"로그인이 성공적으로 완료되었습니다."),
     MEMBER_LOGOUT_SUCCESS(HttpStatus.OK,"로그아웃이 성공적으로 완료되었습니다."),
     MEMBER_INFO_RETRIEVED(HttpStatus.OK, "회원 정보가 성공적으로 조회되었습니다."),
-    MEMBER_WITHDRAW_SUCCESS(HttpStatus.OK, "회원탈퇴가 성공적으로 완료되었습니다."),
+    MEMBER_WITHDRAW_SUCCESS(HttpStatus.OK, "회원 탈퇴가 성공적으로 완료되었습니다."),
 
     // jwt token
     TOKEN_ISSUE_SUCCESS(HttpStatus.OK,"토큰이 성공적으로 발급되었습니다.");

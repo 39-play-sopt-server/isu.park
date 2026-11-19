@@ -36,9 +36,13 @@ public enum ErrorCode {
     EMAIL_ALREADY_EXIST(HttpStatus.NOT_FOUND, "이미 가입된 이메일입니다."),
     MEMBER_EMAIL_EMPTY(HttpStatus.BAD_REQUEST, "회원의 이메일은 필수 입력 항목입니다."),
     MEMBER_PW_EMPTY(HttpStatus.BAD_REQUEST, "회원의 비밀번호는 필수 입력 항목입니다."),
+    MEMBER_ALREADY_WITHDRAWN(HttpStatus.CONFLICT, "이미 탈퇴 처리된 회원입니다."),
 
     // auth
     INVALID_LOGIN_INFO(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 올바르지 않습니다."),
+
+    // admin
+    CANNOT_WITHDRAW_SELF_BY_ADMIN_API(HttpStatus.BAD_REQUEST, "관리자 API로 본인 계정을 탈퇴시킬 수 없습니다."),
 
     // jwt
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않거나 만료된 Refresh Token입니다.");

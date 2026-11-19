@@ -43,7 +43,7 @@ public class AuthService {
         if (!passwordEncoder.matches(password, member.getPassword())) {
             throw new CustomException(ErrorCode.INVALID_LOGIN_INFO);
         }
-        String accessToken = jwtProvider.createAccessToken(member.getId());
+        String accessToken = jwtProvider.createAccessToken(member.getId(), member.getRole());
         String refreshToken = jwtProvider.createRefreshToken(member.getId());
         Instant expiresAt = jwtProvider.getExpiration(refreshToken, TokenType.REFRESH_TOKEN);
 
@@ -76,7 +76,7 @@ public class AuthService {
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_REFRESH_TOKEN));
 
         // 새로 발급
-        String newAccessToken = jwtProvider.createAccessToken(memberId);
+        String newAccessToken = jwtProvider.createAccessToken(memberId, savedToken.getMember().getRole());
         String newRefreshToken = jwtProvider.createRefreshToken(memberId);
         Instant newExpiresAt = jwtProvider.getExpiration(newRefreshToken, TokenType.REFRESH_TOKEN);
 

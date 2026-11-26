@@ -2,7 +2,6 @@ package org.sopt.app.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.dto.AdminMemberResponse;
-import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.service.AdminMemberService;
 import org.sopt.global.common.BaseResponse;
 import org.sopt.global.common.SuccessCode;

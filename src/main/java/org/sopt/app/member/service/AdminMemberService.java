@@ -6,7 +6,6 @@ import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

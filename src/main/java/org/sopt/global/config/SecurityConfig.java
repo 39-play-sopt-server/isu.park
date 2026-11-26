@@ -39,7 +39,7 @@ public class SecurityConfig {
                 // URL별 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/auth/**",
+                                "/api/v1/auth/**",
                                 "/error",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

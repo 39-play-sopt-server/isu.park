@@ -24,9 +24,9 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
 
-        String uuid = UUID.randomUUID().toString();
-
         if (member.isWithdrawn()) { throw new CustomException(ErrorCode.MEMBER_ALREADY_WITHDRAWN);}
+
+        String uuid = UUID.randomUUID().toString();
 
         refreshTokenRepository.deleteByMember_Id(memberId);
         // 익명화

@@ -8,13 +8,13 @@ import org.sopt.app.member.entity.RefreshToken;
 import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
+import org.sopt.global.exception.InvalidTokenException;
 import org.sopt.global.jwt.JwtProvider;
 import org.sopt.global.jwt.TokenType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sopt.app.member.repository.RefreshTokenRepository;
-
 import java.time.Instant;
 
 @Service
@@ -45,7 +45,7 @@ public class AuthService {
         }
         String accessToken = jwtProvider.createAccessToken(member.getId(), member.getRole());
         String refreshToken = jwtProvider.createRefreshToken(member.getId());
-        Instant expiresAt = jwtProvider.getExpiration(refreshToken, TokenType.REFRESH_TOKEN);
+        Instant expiresAt = jwtProvider.getRefreshTokenExpiration(refreshToken);
 
         // member 당 token은 하나만 유지
         refreshTokenRepository.findByMember_Id(member.getId())
@@ -64,8 +64,8 @@ public class AuthService {
         final Long memberId;
 
         try{ // jwt 유효 검증
-            memberId = jwtProvider.getMemberId(refreshToken, TokenType.REFRESH_TOKEN);
-        } catch (JwtException | IllegalArgumentException e) {
+            memberId = jwtProvider.getMemberIdFromRefreshToken(refreshToken);
+        } catch (JwtException | InvalidTokenException | IllegalArgumentException e) {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
@@ -78,7 +78,7 @@ public class AuthService {
         // 새로 발급
         String newAccessToken = jwtProvider.createAccessToken(memberId, savedToken.getMember().getRole());
         String newRefreshToken = jwtProvider.createRefreshToken(memberId);
-        Instant newExpiresAt = jwtProvider.getExpiration(newRefreshToken, TokenType.REFRESH_TOKEN);
+        Instant newExpiresAt = jwtProvider.getRefreshTokenExpiration(newRefreshToken);
 
         // 이전 refresh 토큰을 새로운 것으로 대체(재사용 방지)
         savedToken.rotate(newRefreshToken, newExpiresAt);

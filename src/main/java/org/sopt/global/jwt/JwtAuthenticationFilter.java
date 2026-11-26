@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.entity.Role;
+import org.sopt.global.exception.InvalidTokenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,15 +29,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (token != null) {
             try {
-                Long memberId = jwtProvider.getMemberId(token, TokenType.ACCESS_TOKEN);
+                Long memberId = jwtProvider.getMemberIdFromAccessToken(token);
                 Role role = jwtProvider.getRole(token);
 
                 // 인증 완료된 Authentication 생성 후 SecurityContext에 저장
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(memberId, null, List.of(new SimpleGrantedAuthority(role.authority())));  // principal, credentials, authorities
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (JwtException | IllegalArgumentException e) {
-                request.setAttribute("jwtError", "INVALID");
+            } catch (JwtException | InvalidTokenException | IllegalArgumentException e) {
                 // 유효하지 않은 토큰이면 인증 정보를 저장하지 않음
                 SecurityContextHolder.clearContext();
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"유효하지 않거나 만료된 액세스 토큰입니다.");

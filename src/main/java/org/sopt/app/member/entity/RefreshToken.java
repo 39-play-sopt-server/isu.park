@@ -16,19 +16,23 @@ public class RefreshToken extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false, unique = true)
     private Member member;
 
-    @Column(nullable = false, length = 512)
-    private String token;
+    //@Column(nullable = false, length = 512)
+    //private String token;
+
+    // 토큰 원문이 아닌 SHA-256 해시를 저장
+    @Column(name = "token_hash", nullable = false, unique = true, length = 64)
+    private String tokenHash;
 
     @Column(nullable = false)
     private Instant expiresAt;
 
-    public RefreshToken(Member member, String token, Instant expiresAt) {
+    public RefreshToken(Member member, String tokenHash, Instant expiresAt) {
         this.member = member;
-        this.token = token;
+        this.tokenHash = tokenHash;
         this.expiresAt = expiresAt;
     }
-    public void rotate(String token, Instant expiresAt) {
-        this.token = token;
-        this.expiresAt = expiresAt;
+    public void rotate(String newTokenHash, Instant newExpiresAt) {
+        this.tokenHash = newTokenHash;
+        this.expiresAt = newExpiresAt;
     }
 }

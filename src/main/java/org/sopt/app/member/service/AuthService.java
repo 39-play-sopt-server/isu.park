@@ -10,12 +10,11 @@ import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 import org.sopt.global.exception.InvalidTokenException;
 import org.sopt.global.jwt.JwtProvider;
-import org.sopt.global.jwt.TokenType;
+import org.sopt.global.jwt.TokenHasher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sopt.app.member.repository.RefreshTokenRepository;
-
 import java.time.Clock;
 import java.time.Instant;
 
@@ -50,13 +49,15 @@ public class AuthService {
         String accessToken = jwtProvider.createAccessToken(member.getId(), member.getRole());
         String refreshToken = jwtProvider.createRefreshToken(member.getId());
         Instant expiresAt = jwtProvider.getRefreshTokenExpiration(refreshToken);
+        String refreshHash = TokenHasher.sha256(refreshToken);  // DB에 해시값 저장
+
 
         // member 당 token은 하나만 유지
         refreshTokenRepository.findByMember_Id(member.getId())
                 .ifPresentOrElse(
-                        savedToken -> savedToken.rotate(refreshToken, expiresAt),
+                        savedToken -> savedToken.rotate(refreshHash, expiresAt),
                         () -> refreshTokenRepository.save(
-                                new RefreshToken(member, refreshToken, expiresAt)
+                                new RefreshToken(member, refreshHash, expiresAt)
                         )
                 );
 
@@ -73,8 +74,9 @@ public class AuthService {
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        // DB에서 token 검증
-        RefreshToken savedToken = refreshTokenRepository.findByToken(refreshToken)
+        // DB에서 token 검증 -> 해시로 조회 + 행 잠금
+        RefreshToken savedToken = refreshTokenRepository
+                .findByTokenHashForUpdate(TokenHasher.sha256(refreshToken))
                 .filter(token -> token.getExpiresAt().isAfter(clock.instant()))
                 .filter(token -> token.getMember().getId().equals(memberId))
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_REFRESH_TOKEN));
@@ -93,6 +95,6 @@ public class AuthService {
     // 전달된 refresh token 삭제
     @Transactional
     public void logout(String refreshToken) {
-        refreshTokenRepository.deleteByToken(refreshToken);
+        refreshTokenRepository.deleteByTokenHash(TokenHasher.sha256(refreshToken));
     }
 }

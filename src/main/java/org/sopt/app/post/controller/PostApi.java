@@ -8,23 +8,17 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.sopt.app.member.entity.Member;
 import org.sopt.app.post.dto.PostCreateRequest;
 import org.sopt.app.post.dto.PostListResponse;
 import org.sopt.app.post.dto.PostResponse;
 import org.sopt.app.post.dto.PostUpdateRequest;
 import org.sopt.app.post.entity.Category;
-import org.sopt.app.post.entity.Post;
-import org.sopt.app.post.service.PostService;
 import org.sopt.global.common.BaseResponse;
-import org.sopt.global.common.SuccessCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Tag(name="게시물 관리", description = "게시물 CRUD 관련 API")
-public interface PostApi {
+interface PostApi {
     @Operation(
             summary = "게시물 생성", description = "게시물을 생성합니다.",
             requestBody = @RequestBody(
@@ -84,7 +78,7 @@ public interface PostApi {
                             """)})
             )
     })
-    ResponseEntity<BaseResponse<Void>> createPost(PostCreateRequest request);
+    ResponseEntity<BaseResponse<Void>> createPost(Long memberId, PostCreateRequest request);
 
     @Operation(
             summary = "게시물 목록 조회", description = "게시물 목록(번호, 제목)을 조회합니다.",
@@ -234,7 +228,7 @@ public interface PostApi {
                             """)})
             )
     })
-    ResponseEntity<BaseResponse<Void>> updatePost(Long postId, PostUpdateRequest request);
+    ResponseEntity<BaseResponse<Void>> updatePost(Long memberId, Long postId, PostUpdateRequest request);
 
     @Operation(
             summary = "게시글 삭제", description = "게시글 ID를 통해 게시물을 삭제합니다.",
@@ -264,6 +258,6 @@ public interface PostApi {
                             """)})
             )
     })
-    ResponseEntity<BaseResponse<Void>> deletePost(Long postId);
+    ResponseEntity<BaseResponse<Void>> deletePost(Long memberId, Long postId);
 }
 

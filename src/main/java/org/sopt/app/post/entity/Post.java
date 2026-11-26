@@ -1,6 +1,9 @@
 package org.sopt.app.post.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.post.dto.PostResponse;
 import org.sopt.global.common.BaseEntity;
@@ -10,9 +13,13 @@ import org.sopt.global.exception.CustomException;
 import java.time.LocalDate;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
 
+    @Column
     private String title;
+    @Column
     private String content;
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -24,8 +31,6 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    protected Post() {}
 
     public Post(
             String title,
@@ -40,14 +45,6 @@ public class Post extends BaseEntity {
         this.category = category;
         this.views = 0;
     }
-
-    public Long getId() { return id;}
-
-    // 게시글 조회
-    public String getTitle(){ return this.title;}
-    public String getContent(){ return this.content;}
-    public Category getCategory(){ return this.category;}
-    public Integer getViews(){ return this.views;}
 
     // 게시글 수정 메소드
     public void update(
@@ -70,6 +67,14 @@ public class Post extends BaseEntity {
             throw new CustomException(ErrorCode.POST_CONTENT_EMPTY);
         }
     }
+
+    public String getAuthorName(){
+        if(member == null || member.isWithdrawn()){
+            return "탈퇴한 회원";
+        }
+        return member.getName();
+    }
+
     public void increaseViews(){
         this.views = (this.views == null ? 0 : this.views) + 1;
     }
@@ -77,9 +82,6 @@ public class Post extends BaseEntity {
         this.likes = (this.likes == null ? 0 : this.likes) + 1;
     }
     public void decreaseLikes(){this.likes = (this.likes == null ? 0 : this.likes) - 1;}
-    public String getAuthorName(){
-        return member != null ? member.getName() : "알 수 없음"; // 또는 null
-    }
     public PostResponse toResponse() {
         return new PostResponse(
                 this.id,

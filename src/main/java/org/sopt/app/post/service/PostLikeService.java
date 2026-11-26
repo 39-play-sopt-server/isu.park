@@ -1,6 +1,7 @@
 package org.sopt.app.post.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.app.post.entity.Post;
@@ -13,36 +14,35 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class PostLikeService {
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final MemberRepository memberRepository;
 
-    public PostLikeService(
-            PostRepository postRepository,
-            MemberRepository memberRepository,
-            PostLikeRepository postLikeRepository
-    ) {
-        this.postRepository = postRepository;
-        this.memberRepository = memberRepository;
-        this.postLikeRepository = postLikeRepository;
-    }
-    public void createPostLike(Long postId, Long memberId) {
+    public void createPostLike(Long memberId, Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new CustomException(ErrorCode.POST_NOT_FOUND));
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+
+        if(postLikeRepository.existsByMember_IdAndPost_Id(memberId, postId)){
+            throw new CustomException(ErrorCode.POST_ALREADY_LIKED);
+        }
         PostLike postLike = new PostLike(post, member);
         postLikeRepository.save(postLike);
         post.increaseLikes();
     }
-    public void cancelPostLike(Long postId, Long memberId) {
+    public void cancelPostLike(Long memberId, Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(()-> new CustomException(ErrorCode.POST_NOT_FOUND));
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
-        postLikeRepository.deleteByMemberAndPost(member,post);
+
+        Long deletedCount = postLikeRepository.deleteByMember_IdAndPost_Id(memberId, postId);
+        if(deletedCount == 0) {
+            throw new CustomException(ErrorCode.POST_LIKE_NOT_FOUND);
+        }
         post.decreaseLikes();
     }
+
 }

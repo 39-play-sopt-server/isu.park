@@ -1,6 +1,7 @@
 package org.sopt.app.post.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.member.entity.Member;
 import org.sopt.app.member.repository.MemberRepository;
 import org.sopt.app.post.dto.*;
@@ -14,28 +15,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
-    public PostService(PostRepository postRepository, MemberRepository memberRepository) {   // 의존성 주입
-        this.postRepository = postRepository;
-        this.memberRepository = memberRepository;
-    }
+
     @Transactional
-    public void createPost(PostCreateRequest request) {
-        Member member = memberRepository.findById(request.memberId())
+    public void createPost(Long memberId, String title, String content, Category category) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
-        Post post = new Post(
-                request.title(),
-                request.content(),
-                member,
-                request.category()
-        );
+        Post post = new Post(title, content, member, category);
         postRepository.save(post);
     }
     public List<PostListResponse> getPosts(int page, int size) {
@@ -48,6 +41,7 @@ public class PostService {
         }
         return responseList;
     }
+
     @Transactional
     public PostResponse getPost(Long id){
         Post post = postRepository.findById(id)
@@ -77,20 +71,27 @@ public class PostService {
         }
         return responseList;
     }
-    public void updatePost(Long id, PostUpdateRequest request) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        post.update(
-                request.title(),
-                request.content(),
-                request.category()
-        );
+    // 글 작성자만 수정 가능
+    @Transactional
+    public void updatePost(Long postId, Long memberId, String title, String content, Category category) {
+        Post post = getPostOwnedBy(postId, memberId);
+        post.update(title, content, category);
         postRepository.save(post);
     }
+    // 글 작성자만 삭제 가능
     @Transactional
-    public void deletePost(Long id){
-        postRepository.findById(id)
+    public void deletePost(Long memberId, Long postId) {
+        Post post = getPostOwnedBy(postId, memberId);
+        postRepository.delete(post);
+    }
+    // 게세글의 존재 여부 + 현재 회원이 작성자인지 확인
+    private Post getPostOwnedBy(Long postId, Long memberId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        postRepository.deleteById(id);
+
+        if(post.getMember() == null || !post.getMember().getId().equals(memberId)) {
+            throw new CustomException(ErrorCode.POST_FORBIDDEN);
+        }
+        return post;
     }
 }

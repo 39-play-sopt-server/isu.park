@@ -1,10 +1,15 @@
 package org.sopt.app.member.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.sopt.global.common.BaseEntity;
 import org.sopt.global.common.ErrorCode;
 import org.sopt.global.exception.CustomException;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member extends BaseEntity {
     @Column(nullable = false, unique = true)
@@ -16,7 +21,13 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    protected  Member() {}
+    @Column(nullable = false)
+    private boolean withdrawn = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Role role = Role.USER;
+
     public Member(
             String name,
             String email,
@@ -26,6 +37,7 @@ public class Member extends BaseEntity {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = Role.USER;      // 가입 경로로는 항상 USER
     }
 
     public void validate(String email, String password) {
@@ -36,8 +48,17 @@ public class Member extends BaseEntity {
             throw new CustomException(ErrorCode.MEMBER_PW_EMPTY);
         }
     }
-    public Long getId() {return id;}
-    public String getName(){ return name;}
-    public String getEmail(){ return email;}
-    public String getPassword(){ return password;}
+    public void anonymize(  // 회원 탈퇴시, 익명화 처리
+            String anonymousName,
+            String anonymousEmail,
+            String encodedRandomPassword
+    ){
+        this.name = anonymousName;
+        this.email = anonymousEmail;
+        this.password = encodedRandomPassword;
+        this.withdrawn = true;
+    }
+    public boolean isAdmin() {
+        return Role.ADMIN.equals(role);
+    }
 }

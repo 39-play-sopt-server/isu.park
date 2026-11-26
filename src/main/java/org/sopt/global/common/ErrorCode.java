@@ -1,7 +1,11 @@
 package org.sopt.global.common;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+@Getter
+@RequiredArgsConstructor
 public enum ErrorCode {
     // 공통 에러
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 리소스를 찾지 못했습니다."),
@@ -21,25 +25,28 @@ public enum ErrorCode {
     POST_CATEGORY_EMPTY(HttpStatus.BAD_REQUEST,"게시글 카테고리는 필수 입력 항목입니다."),
     INVALID_CATEGORY(HttpStatus.BAD_REQUEST, "유효하지 않은 카테고리입니다."),
 
-    // 게시물 조회
+    // 게시물
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 게시물입니다."),
+    POST_FORBIDDEN(HttpStatus.FORBIDDEN, "이 게시글에 대한 권한이 없습니다."),
+    POST_ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요를 누른 게시글입니다."),
+    POST_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "취소할 좋아요가 없습니다."),
 
     // 회원
     MEMBER_NOT_EXIST(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    EMAIL_ALREADY_EXIST(HttpStatus.NOT_FOUND, "이미 가입된 이메일입니다."),
+    EMAIL_ALREADY_EXIST(HttpStatus.CONFLICT, "이미 가입된 이메일입니다."),
     MEMBER_EMAIL_EMPTY(HttpStatus.BAD_REQUEST, "회원의 이메일은 필수 입력 항목입니다."),
     MEMBER_PW_EMPTY(HttpStatus.BAD_REQUEST, "회원의 비밀번호는 필수 입력 항목입니다."),
+    MEMBER_ALREADY_WITHDRAWN(HttpStatus.CONFLICT, "이미 탈퇴 처리된 회원입니다."),
 
     // auth
-    INVALID_LOGIN_INFO(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 올바르지 않습니다.");
+    INVALID_LOGIN_INFO(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 올바르지 않습니다."),
+
+    // admin
+    CANNOT_WITHDRAW_SELF_BY_ADMIN_API(HttpStatus.BAD_REQUEST, "관리자 API로 본인 계정을 탈퇴시킬 수 없습니다."),
+
+    // jwt
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않거나 만료된 Refresh Token입니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
-
-    ErrorCode(HttpStatus httpStatus, String message) {
-        this.httpStatus = httpStatus;
-        this.message = message;
-    }
-    public HttpStatus getHttpStatus() { return httpStatus; }
-    public String getMessage() { return message; }
 }

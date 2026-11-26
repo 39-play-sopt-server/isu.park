@@ -1,26 +1,17 @@
 package org.sopt.global.common;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 // 공통 응답 템플릿 - 모든 API 응답 형식 통일
+@Getter
+@RequiredArgsConstructor
 public class BaseResponse<T> {
-
     private final int status;
     private final boolean success;  // 성공 여부
     private final String message;  // 안내 메시지
     private final T data;  // 전달 데이터
-
-    public BaseResponse(int status, boolean success, String message, T data) {
-        this.status = status;
-        this.success = success;
-        this.message = message;
-        this.data = data;
-    }
-
-    public int getStatus() { return status; }
-    public boolean isSuccess() { return success; }
-    public String getMessage() { return message; }
-    public T getData(){ return data; }
 
     // 성공 시 응답
     public static <T> ResponseEntity<BaseResponse<T>> success(SuccessCode successCode,T data) {

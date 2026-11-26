@@ -2,21 +2,18 @@ package org.sopt.app.post.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.sopt.app.post.entity.Category;
 import org.sopt.app.post.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
-
 import static org.sopt.app.post.entity.QPost.post;
 
+@RequiredArgsConstructor
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-
-    public PostRepositoryCustomImpl(JPAQueryFactory queryFactory) {
-        this.queryFactory = queryFactory;
-    }
 
     @Override
     public Page<Post> findPostsByDynamicFilter(Category category, Long authorId, Pageable pageable){

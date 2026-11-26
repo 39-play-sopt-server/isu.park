@@ -10,4 +10,8 @@ public enum TokenType {
     REFRESH_TOKEN("refresh");
 
     private final String type;
+
+    public boolean matches(String claimValue) {
+        return type.equals(claimValue);
+    }
 }

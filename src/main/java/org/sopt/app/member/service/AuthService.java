@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sopt.app.member.repository.RefreshTokenRepository;
+
+import java.time.Clock;
 import java.time.Instant;
 
 @Service
@@ -24,6 +26,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final Clock clock;
 
     @Transactional
     public Long signup(String name, String email, String password) {
@@ -40,6 +43,7 @@ public class AuthService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_LOGIN_INFO));
 
+        if (member.isWithdrawn()) { throw new CustomException(ErrorCode.MEMBER_ALREADY_WITHDRAWN);}
         if (!passwordEncoder.matches(password, member.getPassword())) {
             throw new CustomException(ErrorCode.INVALID_LOGIN_INFO);
         }
@@ -71,7 +75,7 @@ public class AuthService {
 
         // DB에서 token 검증
         RefreshToken savedToken = refreshTokenRepository.findByToken(refreshToken)
-                .filter(token -> token.getExpiresAt().isAfter(Instant.now()))
+                .filter(token -> token.getExpiresAt().isAfter(clock.instant()))
                 .filter(token -> token.getMember().getId().equals(memberId))
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_REFRESH_TOKEN));
 
